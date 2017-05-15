@@ -1,0 +1,19 @@
+<div class="container">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">InScope Tracker</a>
+      </div>
+      <div *ngIf="isLoggedIn">
+        <button class="navbar-right btn btn-default" (click)="logout()">Logout</button>
+        <p class="navbar-text navbar-right">Logged In: {{authService.displayName}}<p>
+        
+      </div>
+      <div *ngIf="!isLoggedIn">
+        <p class="navbar-text navbar-right">Logged Out</p>
+      </div>
+    </div>
+  </nav>
+  <router-outlet></router-outlet>
+</div>
+  
