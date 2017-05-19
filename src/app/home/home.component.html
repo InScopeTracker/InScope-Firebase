@@ -6,11 +6,11 @@
       <div class="jumbotron">
         <h2>Projects</h2>
         <ul>
-       <div *ngFor="let project of projects | async">
-          <li *ngIf="verifyUser(project.owner)">{{project.project}} by {{project.owner}}</li>
-          
-      </div></ul>
+          <div *ngFor="let project of projects | async">
+            <li *ngIf="verifyUser(project.owner)">{{project.project}} by {{project.owner}}</li>
+
+          </div></ul>
+      </div>
     </div>
   </div>
-</div>
 </div>
