@@ -7,7 +7,7 @@
         <h2>Projects</h2>
         <ul>
           <div *ngFor="let project of projects | async">
-            <li *ngIf="verifyUser(project.owner)">{{project.project}} by {{project.owner}}</li>
+            <li *ngIf="verifyUser(project.owner)"><button class="btn btn-default" (click)="navToTasks(project.project)">{{project.project}}</button></li>
 
           </div></ul>
       </div>

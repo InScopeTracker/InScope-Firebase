@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <input type="text" [(ngModel)]="newTask" (keyup.enter)="createTask()">
+    <button class="btn btn-default" (click)="createTask()">Create New Task</button>
+    <div class="row">
+      <div class="jumbotron">
+        <h2>{{currentProject}}</h2>
+        <ul>
+          <div *ngFor="let task of tasks | async">
+            <li *ngIf="verifyUserAndProject(task.owner, task.project)"><a href="#">{{task.task}} by {{task.owner}}</a></li>
+
+          </div></ul>
+      </div>
+    </div>
+  </div>
+</div>

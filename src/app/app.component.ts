@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 })
 export class AppComponent {
   public isLoggedIn: Boolean;
+  public currentProject: string;
   authToken: any;
 
   constructor(public af: AngularFire, private router: Router) {
