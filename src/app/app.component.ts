@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { AngularFire } from 'angularfire2';
 import { Router } from '@angular/router';
-
-import { AuthService } from './providers/auth.service';
+import { LoginComponent } from './login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -10,26 +10,20 @@ import { AuthService } from './providers/auth.service';
 })
 export class AppComponent {
   public isLoggedIn: Boolean;
-  constructor(public authService: AuthService, private router: Router) {
-    this.authService.af.auth.subscribe(
-      (auth) => {
-        if (auth == null) {
-          console.log('Logged out');
-          this.isLoggedIn = false;
-          this.router.navigate(['login']);
-        } else {
-          this.isLoggedIn = true;
-          this.authService.displayName = auth.google.displayName;
-          this.authService.email = auth.google.email;
-          console.log('Logged in');
-          console.log(auth);
-          this.router.navigate(['']);
-        }
+  authToken: any;
+
+  constructor(public af: AngularFire, private router: Router) {
+    this.af.auth.subscribe(auth => {
+      if (auth) {
+        this.authToken = auth;
+        this.isLoggedIn = true;
       }
-    );
+    });
   }
 
   logout() {
-    this.authService.logout();
+    this.af.auth.logout();
+    console.log('logged out');
+    this.router.navigateByUrl('/login');
   }
 }

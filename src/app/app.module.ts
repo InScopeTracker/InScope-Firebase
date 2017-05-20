@@ -2,13 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
-import { AngularFireModule} from 'angularfire2';
+import { AngularFireModule } from 'angularfire2';
 
 import { AppComponent } from './app.component';
-import { AuthService } from './providers/auth.service';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { ProjectComponent } from './project/project.component';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './auth.service';
+import { routes } from './app.routes';
 
 
 export const firebaseConfig = {
@@ -20,25 +20,21 @@ export const firebaseConfig = {
     messagingSenderId: '859825004902'
   };
 
-const routes: Routes = [
-  { path: '', component: ProjectComponent },
-  { path: 'login', component: LoginPageComponent }
-];
-
 @NgModule({
   declarations: [
     AppComponent,
-    LoginPageComponent,
-    ProjectComponent
+    LoginComponent,
+    HomeComponent,
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    RouterModule.forRoot(routes)
+    routes
   ],
-  providers: [AuthService],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

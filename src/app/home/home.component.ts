@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFire, AuthProviders, AuthMethods, FirebaseListObservable} from 'angularfire2';
 import { Router } from '@angular/router';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'app-home',
@@ -13,25 +14,27 @@ export class HomeComponent implements OnInit {
   state = '';
   public newProject: string;
 
-  constructor(public af: AngularFire, private router: Router) {
+  constructor(public af: AngularFire, private db: AngularFireDatabase, private router: Router) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
     });
-    this.projects = this.af.database.list('projects');
+    this.projects = this.af.database.list('/projects');
   }
 
   verifyUser(email) {
     return email === this.authToken.auth.email;
   }
 
-  createProject(newProject) {
+  createProject() {
     const project = {
-      project: newProject,
+      project: this.newProject,
       owner: this.authToken.auth.email,
       timestamp: Date.now()
     };
+    const objRef = this.af.database.object(`/projects/${this.newProject}`);
+    objRef.set(project);
   }
 
   ngOnInit() {
