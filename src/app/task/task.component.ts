@@ -24,8 +24,14 @@ export class TaskComponent implements OnInit {
         this.authToken = auth;
       }
     });
-    this.tasks = this.af.database.list('/tasks');
     this.currentProject = app.currentProject;
+    this.tasks = this.af.database.list('/tasks', {
+      query: {
+        orderByChild: 'projectTitle',
+        equalTo: this.currentProject,
+      }      
+    });
+    this.tasks.subscribe(console.log);  //For testing and debugging only
   }
 
   verifyUserAndProject(email, project) {
@@ -36,11 +42,10 @@ export class TaskComponent implements OnInit {
     const task = {
       task: this.newTask,
       owner: this.authToken.auth.email,
-      project: this.app.currentProject,
+      projectTitle: this.app.currentProject,
       timestamp: Date.now()
     };
-    const objRef = this.af.database.object(`/tasks/${this.newTask}`);
-    objRef.set(task);
+    this.tasks.push(task);
   }
 
   ngOnInit() {

@@ -7,8 +7,7 @@
         <h2>{{currentProject}}</h2>
         <ul>
           <div *ngFor="let task of tasks | async">
-            <li *ngIf="verifyUserAndProject(task.owner, task.project)"><a href="#">{{task.task}} by {{task.owner}}</a></li>
-
+            <li><a href="#">{{task.task}} by {{task.owner}}</a></li>
           </div></ul>
       </div>
     </div>

@@ -5,11 +5,11 @@
     <div class="row">
       <div class="jumbotron">
         <h2>Projects</h2>
-        <ul>
-          <div *ngFor="let project of projects | async">
-            <li *ngIf="verifyUser(project.owner)"><button class="btn btn-default" (click)="navToTasks(project.project)">{{project.project}}</button></li>
-
-          </div></ul>
+        <div class="list-group">
+          <div class="list-group-item col-md-3" *ngFor="let project of projects | async">
+            <div (click)="navToTasks(project)">{{project.title}}</div>
+          </div>
+      </div>
       </div>
     </div>
   </div>

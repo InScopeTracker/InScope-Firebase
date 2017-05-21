@@ -21,7 +21,13 @@ export class HomeComponent implements OnInit {
         this.authToken = auth;
       }
     });
-    this.projects = this.af.database.list('/projects');
+    this.projects = this.af.database.list('/projects', {
+      query: {
+        orderByChild: 'owner',
+        equalTo: this.authToken.auth.email,
+      }
+    });
+    this.projects.subscribe(console.log);
   }
 
   /**
@@ -40,17 +46,16 @@ export class HomeComponent implements OnInit {
    */
   createProject() {
     const project = {
-      project: this.newProject,
+      title: this.newProject,
       owner: this.authToken.auth.email,
       timestamp: Date.now()
     };
-    const objRef = this.af.database.object(`/projects/${this.newProject}`);
-    objRef.set(project);
+    this.projects.push(project);
   }
 
-  navToTasks(text) {
-    this.app.currentProject = text;
-    this.router.navigateByUrl('/tasks/:' + text);
+  navToTasks(project) {
+    this.app.currentProject = project.title;
+    this.router.navigateByUrl('/tasks/:' + project.title);
   }
 
   ngOnInit() {
