@@ -5,12 +5,12 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AppComponent } from '../app.component';
 
 @Component({
-  selector: 'app-task',
-  templateUrl: './task.component.html',
-  styleUrls: ['./task.component.css']
+  selector: 'app-project',
+  templateUrl: './project.component.html',
+  styleUrls: ['./project.component.css']
 })
 
-export class TaskComponent implements OnInit {
+export class ProjectComponent implements OnInit {
 
   authToken: any;
   public tasks: FirebaseListObservable<any>;
@@ -29,8 +29,9 @@ export class TaskComponent implements OnInit {
       query: {
         orderByChild: 'projectTitle',
         equalTo: this.currentProject,
-      }      
+      }
     });
+    debugger;
     this.tasks.subscribe(console.log);  //For testing and debugging only
   }
 

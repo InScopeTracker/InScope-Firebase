@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
 
   navToTasks(project) {
     this.app.currentProject = project.title;
-    this.router.navigateByUrl('/tasks/:' + project.title);
+    this.router.navigateByUrl('/project/:' + project.title);
   }
 
   ngOnInit() {
