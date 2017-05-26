@@ -31,7 +31,7 @@ export class ProjectComponent implements OnInit {
         equalTo: this.currentProject,
       }
     });
-    this.tasks.subscribe(console.log);  //For testing and debugging only
+    this.tasks.subscribe(console.log);  // For testing and debugging only
   }
 
   verifyUserAndProject(email, project) {

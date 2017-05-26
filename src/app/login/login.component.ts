@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
   loginGoogle() {
     this.af.auth.login({
       provider: AuthProviders.Google,
