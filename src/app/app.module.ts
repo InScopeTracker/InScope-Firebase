@@ -11,7 +11,8 @@ import { AuthGuard } from './auth.service';
 import { routes } from './app.routes';
 import { ProjectComponent } from './project/project.component';
 import { TaskComponent } from './task/task.component';
-import { TasksComponent } from './tasks/tasks';
+import { TaskListComponent } from './task-list/task-list';
+import { TaskKanbanComponent } from './task-kanban/task-kanban.component';
 
 
 export const firebaseConfig = {
@@ -30,7 +31,8 @@ export const firebaseConfig = {
     HomeComponent,
     ProjectComponent,
     TaskComponent,
-    TasksComponent,
+    TaskListComponent,
+    TaskKanbanComponent,
 
   ],
   imports: [

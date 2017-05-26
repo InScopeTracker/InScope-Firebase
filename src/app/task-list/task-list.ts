@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-tasks',
-  templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css']
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.css']
 })
-export class TasksComponent implements OnInit {
+export class TaskListComponent implements OnInit {
 
   authToken: any;
   public tasks: FirebaseListObservable<any>;
