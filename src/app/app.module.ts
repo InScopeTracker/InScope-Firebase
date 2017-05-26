@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.service';
 import { routes } from './app.routes';
 import { ProjectComponent } from './project/project.component';
+import { TaskComponent } from './task/task.component';
 
 
 export const firebaseConfig = {
@@ -27,6 +28,7 @@ export const firebaseConfig = {
     LoginComponent,
     HomeComponent,
     ProjectComponent,
+    TaskComponent,
 
   ],
   imports: [

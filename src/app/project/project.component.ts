@@ -31,7 +31,6 @@ export class ProjectComponent implements OnInit {
         equalTo: this.currentProject,
       }
     });
-    debugger;
     this.tasks.subscribe(console.log);  //For testing and debugging only
   }
 
