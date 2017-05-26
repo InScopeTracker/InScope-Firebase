@@ -1,20 +1,5 @@
 <div class="container">
   <div class="row">
-    <input type="text" [(ngModel)]="newTask" (keyup.enter)="createTask()">
-    <button class="btn btn-default" (click)="createTask()">Create New Task</button>
-    <div class="row">
-      <h2>{{currentProject}}</h2>
-      <table class="table table-striped table-bordered table-condensed" *ngFor="let task of tasks | async">
-        <tr>
-          <th>Task</th>
-          <th>Owner</th>
-        </tr>
-        <tr>
-          <td><a href="#">{{task.task}}</a></td>
-          <td><a href="#">{{task.owner}}</a></td>
-        </tr>
-      </table>
-    </div>
     <router-outlet></router-outlet>
   </div>
 </div>
