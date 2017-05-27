@@ -10,16 +10,18 @@ import { TaskComponent } from './task/task.component';
 import { TaskListComponent } from './task-list/task-list';
 import { TaskKanbanComponent } from './task-kanban/task-kanban.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
+import { TasksViewComponent } from './tasks-view/tasks-view.component';
 
 export const router: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'project/:project', component: ProjectComponent, canActivate: [AuthGuard], children: [
-    { path: '', component: TaskListComponent, canActivate: [AuthGuard] },
-    { path: 'list', component: TaskListComponent, canActivate: [AuthGuard] },
-    { path: 'kanban', component: TaskKanbanComponent, canActivate: [AuthGuard] },
-    { path: 'task/:task', component: TaskComponent, canActivate: [AuthGuard] },
+    { path: 'task', component: TasksViewComponent, canActivate: [AuthGuard], children: [
+      { path: 'list', component: TaskListComponent, canActivate: [AuthGuard] },
+      { path: 'kanban', component: TaskKanbanComponent, canActivate: [AuthGuard] },
+      { path: ':task', component: TaskComponent, canActivate: [AuthGuard] },
+    ]},
     { path: 'settings', component: ProjectSettingsComponent, canActivate: [AuthGuard] },
   ]}
 ];

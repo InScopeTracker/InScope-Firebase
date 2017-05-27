@@ -1,5 +1,5 @@
 <div class="row">
-  <a class="btn btn-info" [routerLink]="['../kanban']">View Kanban</a>
+  <a class="btn btn-info" routerLink="../kanban">View Kanban</a>
 </div>
 <input type="text" [(ngModel)]="newTask" (keyup.enter)="createTask()">
 <button class="btn btn-default" (click)="createTask()">Create New Task</button>
@@ -11,7 +11,7 @@
       <th>Owner</th>
     </tr>
     <tr>
-      <td><a routerLink="task/{{task.task}}">{{task.task}}</a></td>
+      <td><a routerLink="../{{task.task}}">{{task.task}}</a></td>
       <td><a href="#">{{task.owner}}</a></td>
     </tr>
   </table>
