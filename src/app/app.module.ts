@@ -17,6 +17,7 @@ import { ProjectSettingsComponent } from './project-settings/project-settings.co
 import { TasksViewComponent } from './tasks-view/tasks-view.component';
 import { TaskViewComponent } from './task-view/task-view.component';
 import { TaskEditComponent } from './task-edit/task-edit.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 export const firebaseConfig = {
@@ -41,7 +42,7 @@ export const firebaseConfig = {
     TasksViewComponent,
     TaskViewComponent,
     TaskEditComponent,
-
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

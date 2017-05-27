@@ -13,6 +13,7 @@ import { ProjectSettingsComponent } from './project-settings/project-settings.co
 import { TasksViewComponent } from './tasks-view/tasks-view.component';
 import { TaskViewComponent } from './task-view/task-view.component';
 import { TaskEditComponent } from './task-edit/task-edit.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const router: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -27,8 +28,9 @@ export const router: Routes = [
         { path: 'edit', component: TaskEditComponent },
       ]},
     ]},
-    { path: 'settings', component: ProjectSettingsComponent },
-  ]}
+    { path: 'settings', component: ProjectSettingsComponent }
+  ]},
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 export const routes: ModuleWithProviders = RouterModule.forRoot(router);
