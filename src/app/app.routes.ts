@@ -23,9 +23,10 @@ export const router: Routes = [
     { path: 'task', component: TasksViewComponent, children: [
       { path: 'list', component: TaskListComponent },
       { path: 'kanban', component: TaskKanbanComponent },
+      { path: 'create', component: TaskEditComponent },
       { path: ':task', component: TaskComponent, children: [
         { path: '', component: TaskViewComponent },
-        { path: 'edit', component: TaskEditComponent },
+        { path: 'edit', component: TaskEditComponent }
       ]},
     ]},
     { path: 'settings', component: ProjectSettingsComponent }

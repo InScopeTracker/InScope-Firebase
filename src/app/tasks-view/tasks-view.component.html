@@ -1,5 +1,10 @@
 <div class="row">
-  <a class="btn btn-info" routerLink="./kanban" routerLinkActive="active">View as Kanban</a>
-  <a class="btn btn-info" routerLink="./list" routerLinkActive="active">View as List</a>
+  <div class="col-md-10">
+    <a class="btn btn-info" routerLink="./list" routerLinkActive="active">View as List</a>
+    <a class="btn btn-info" routerLink="./kanban" routerLinkActive="active">View as Kanban</a>
+  </div>
+  <div class="col-md-2">
+    <a class="btn btn-info" routerLink="./create" routerLinkActive="active">Add Task</a>
+  </div>
 </div>
 <router-outlet></router-outlet>

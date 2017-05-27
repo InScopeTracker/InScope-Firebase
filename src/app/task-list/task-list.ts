@@ -36,16 +36,6 @@ export class TaskListComponent implements OnInit {
     return email === this.authToken.auth.email && project === this.app.currentProject;
   }
 
-  createTask() {
-    const task = {
-      task: this.newTask,
-      owner: this.authToken.auth.email,
-      projectTitle: this.app.currentProject,
-      timestamp: Date.now()
-    };
-    this.tasks.push(task);
-  }
-
   ngOnInit() {
   }
 
