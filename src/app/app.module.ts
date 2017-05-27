@@ -15,6 +15,8 @@ import { TaskListComponent } from './task-list/task-list';
 import { TaskKanbanComponent } from './task-kanban/task-kanban.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { TasksViewComponent } from './tasks-view/tasks-view.component';
+import { TaskViewComponent } from './task-view/task-view.component';
+import { TaskEditComponent } from './task-edit/task-edit.component';
 
 
 export const firebaseConfig = {
@@ -37,6 +39,8 @@ export const firebaseConfig = {
     TaskKanbanComponent,
     ProjectSettingsComponent,
     TasksViewComponent,
+    TaskViewComponent,
+    TaskEditComponent,
 
   ],
   imports: [
