@@ -3,6 +3,7 @@ import {AngularFire, FirebaseListObservable} from 'angularfire2';
 import { Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AppComponent } from '../app.component';
+import { FirebaseService }  from '../services/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -15,19 +16,12 @@ export class HomeComponent implements OnInit {
   state = '';
   public newProject: string;
 
-  constructor(public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router) {
+  constructor(private afservice: FirebaseService, public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
     });
-    this.projects = this.af.database.list('/projects', {
-      query: {
-        orderByChild: 'owner',
-        equalTo: this.authToken.auth.email,
-      }
-    });
-    this.projects.subscribe(console.log);
   }
 
   /**
@@ -59,6 +53,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.projects = this.afservice.getProjects();
   }
 
 }

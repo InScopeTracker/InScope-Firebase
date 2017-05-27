@@ -18,6 +18,7 @@ import { TasksViewComponent } from './tasks-view/tasks-view.component';
 import { TaskViewComponent } from './task-view/task-view.component';
 import { TaskEditComponent } from './task-edit/task-edit.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { FirebaseService } from './services/firebase.service';
 
 
 export const firebaseConfig = {
@@ -51,7 +52,7 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     routes
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, FirebaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
