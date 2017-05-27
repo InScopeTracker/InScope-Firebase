@@ -19,15 +19,15 @@ export const router: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'project/:project', component: ProjectComponent, canActivate: [AuthGuard], children: [
-    { path: 'task', component: TasksViewComponent, canActivate: [AuthGuard], children: [
-      { path: 'list', component: TaskListComponent, canActivate: [AuthGuard] },
-      { path: 'kanban', component: TaskKanbanComponent, canActivate: [AuthGuard] },
-      { path: ':task', component: TaskComponent, canActivate: [AuthGuard], children: [
-        { path: '', component: TaskViewComponent, canActivate: [AuthGuard] },
-        { path: 'edit', component: TaskEditComponent, canActivate: [AuthGuard] },
+    { path: 'task', component: TasksViewComponent, children: [
+      { path: 'list', component: TaskListComponent },
+      { path: 'kanban', component: TaskKanbanComponent },
+      { path: ':task', component: TaskComponent, children: [
+        { path: '', component: TaskViewComponent },
+        { path: 'edit', component: TaskEditComponent },
       ]},
     ]},
-    { path: 'settings', component: ProjectSettingsComponent, canActivate: [AuthGuard] },
+    { path: 'settings', component: ProjectSettingsComponent },
   ]}
 ];
 
