@@ -4,6 +4,9 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'an
 @Injectable()
 export class FirebaseService {
     projects: FirebaseListObservable<any[]>;
+    tasks: FirebaseListObservable<any[]>;
+    project: FirebaseObjectObservable<any>;
+    task: FirebaseObjectObservable<any>;
     authToken: any;
 
     constructor(private af: AngularFire) {
@@ -23,11 +26,35 @@ export class FirebaseService {
         }) as FirebaseListObservable<Project[]>
         return this.projects;
     }
+
+    getProject(id) {
+        this.project = this.af.database.object('/projects' +id) as FirebaseObjectObservable<Project>
+        return this.project;
+    }
+
+    getTasks(projectId) {
+        this.tasks = this.af.database.list('/tasks', {
+            query: {
+                orderByChild: 'projectId',
+                equalTo: projectId,
+            }
+        }) as FirebaseListObservable<Project[]>
+        return this.tasks;
+    }
 }
 
 interface Project {
     $key?: string,
     title?: string,
     owner?: string,
+    timestamp: Date,
+}
+
+interface Task {
+    $key?: string,
+    title?: string,
+    owner?: string,
+    projectTitle?: string,
+    projectId: string,
     timestamp: Date,
 }

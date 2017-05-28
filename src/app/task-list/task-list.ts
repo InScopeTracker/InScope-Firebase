@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, AngularFireDatabase, FirebaseListObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FirebaseService }  from '../services/firebase.service';
 
 @Component({
   selector: 'app-project-tasks',
@@ -14,22 +15,14 @@ export class TaskListComponent implements OnInit {
   public tasks: FirebaseListObservable<any>;
   state = '';
   public newTask: string;
-  public currentProject: string;
+  public currentProjectId: any;
 
-  constructor(public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router) {
+  constructor(private firebaseService: FirebaseService, public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router, private route: ActivatedRoute) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
     });
-    this.currentProject = app.currentProject;
-    this.tasks = this.af.database.list('/tasks', {
-      query: {
-        orderByChild: 'projectTitle',
-        equalTo: this.currentProject,
-      }
-    });
-    this.tasks.subscribe(console.log);  // For testing and debugging only
   }
 
   verifyUserAndProject(email, project) {
@@ -40,13 +33,16 @@ export class TaskListComponent implements OnInit {
     const task = {
       task: this.newTask,
       owner: this.authToken.auth.email,
-      projectTitle: this.app.currentProject,
+      projectId: this.currentProjectId,
       timestamp: Date.now()
     };
     this.tasks.push(task);
   }
 
   ngOnInit() {
+    this.currentProjectId = this.route.snapshot.parent.parent.params['id'];
+    console.log(this.currentProjectId);
+    this.tasks = this.firebaseService.getTasks(this.currentProjectId);
   }
 
 }

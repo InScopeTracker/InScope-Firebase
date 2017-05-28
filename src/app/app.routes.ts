@@ -19,7 +19,7 @@ export const router: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'project/:project', component: ProjectComponent, canActivate: [AuthGuard], children: [
+  { path: 'project/:id', component: ProjectComponent, canActivate: [AuthGuard], children: [
     { path: 'task', component: TasksViewComponent, children: [
       { path: 'list', component: TaskListComponent },
       { path: 'kanban', component: TaskKanbanComponent },

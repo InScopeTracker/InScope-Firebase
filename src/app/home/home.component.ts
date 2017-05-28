@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   state = '';
   public newProject: string;
 
-  constructor(private afservice: FirebaseService, public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router) {
+  constructor(private firebaseService: FirebaseService, public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
@@ -48,12 +48,12 @@ export class HomeComponent implements OnInit {
   }
 
   navToTasks(project) {
-    this.app.currentProject = project.title;
-    this.router.navigateByUrl('/project/:' + project.title + '/task/list');
+    this.app.currentProject = project.$key;
+    this.router.navigateByUrl('/project/:' + project.$key + '/task/list');
   }
 
   ngOnInit() {
-    this.projects = this.afservice.getProjects();
+    this.projects = this.firebaseService.getProjects();
   }
 
 }
