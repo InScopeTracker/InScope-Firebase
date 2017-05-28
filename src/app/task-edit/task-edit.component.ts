@@ -41,7 +41,7 @@ export class TaskEditComponent implements OnInit {
       timestamp: Date.now()
     };
     this.tasks.push(task).then(() => {
-      this.router.navigateByUrl('/project/:' + this.currentProjectId + '/task/list');
+      this.router.navigateByUrl('/project/' + this.currentProjectId + '/task/list');
     });
   }
 
