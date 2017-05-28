@@ -41,7 +41,6 @@ export class TaskListComponent implements OnInit {
 
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.parent.parent.params['id'];
-    console.log(this.currentProjectId);
     this.tasks = this.firebaseService.getTasks(this.currentProjectId);
   }
 

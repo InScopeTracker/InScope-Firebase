@@ -38,7 +38,7 @@ export class FirebaseService {
                 orderByChild: 'projectId',
                 equalTo: projectId,
             }
-        }) as FirebaseListObservable<Project[]>
+        }) as FirebaseListObservable<Task[]>
         return this.tasks;
     }
 }
