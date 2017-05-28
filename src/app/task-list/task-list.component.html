@@ -6,7 +6,7 @@
       <th>Owner</th>
     </tr>
     <tr *ngFor="let task of tasks | async">
-      <td><a routerLink="../{{task.task}}">{{task.task}}</a></td>
+      <td><a routerLink="../{{task.task}}">{{task.title}}</a></td>
       <td><a href="#">{{task.owner}}</a></td>
     </tr>
   </table>

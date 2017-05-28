@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService }  from '../services/firebase.service';
@@ -13,7 +13,8 @@ export class TaskEditComponent implements OnInit {
   authToken: any;
   public tasks: FirebaseListObservable<any>;
   public newTask: string;
-  public currentProjectId: any;
+  public currentProjectId: string;
+  public currentProject: any;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -30,13 +31,17 @@ export class TaskEditComponent implements OnInit {
 
   ngOnInit() {
     this.currentProjectId = this.route.parent.parent.snapshot.params['id'];
+    this.firebaseService.getProject(this.currentProjectId).subscribe(project => {
+        this.currentProject = project;
+    });
     this.tasks = this.firebaseService.getTasks(this.currentProjectId);
   }
 
   createTask() {
     const task = {
-      task: this.newTask,
+      title: this.newTask,
       owner: this.authToken.auth.email,
+      projectTitle: this.currentProject.title,
       projectId: this.currentProjectId,
       timestamp: Date.now()
     };
@@ -44,5 +49,4 @@ export class TaskEditComponent implements OnInit {
       this.router.navigateByUrl('/project/' + this.currentProjectId + '/task/list');
     });
   }
-
 }

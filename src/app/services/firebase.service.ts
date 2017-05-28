@@ -28,7 +28,7 @@ export class FirebaseService {
     }
 
     getProject(id) {
-        this.project = this.af.database.object('/projects' +id) as FirebaseObjectObservable<Project>
+        this.project = this.af.database.object('/projects/' +id) as FirebaseObjectObservable<Project>;
         return this.project;
     }
 
