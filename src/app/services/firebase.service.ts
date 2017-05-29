@@ -45,6 +45,21 @@ export class FirebaseService {
     completeTask(taskKey: string) {
         this.af.database.object('/tasks/' + taskKey).remove();
     }
+
+    deleteProject(projectKey: string) {
+        this.af.database.list('/tasks', {
+            query: {
+                orderByChild: 'projectId',
+                equalTo: projectKey
+            }
+        }).subscribe(res => {
+            const key = res[0].$key;
+            this.af.database.object('/tasks/' + key).remove();
+        });
+
+
+        this.af.database.object('/projects/' + projectKey).remove();
+    }
 }
 
 interface Project {

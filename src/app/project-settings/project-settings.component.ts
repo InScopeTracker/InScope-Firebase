@@ -15,7 +15,7 @@ export class ProjectSettingsComponent implements OnInit {
   public currentProject: FirebaseObjectObservable<any>;
   authToken: any;
 
-  constructor(private af: AngularFire, private firebaseService: FirebaseService, private route: ActivatedRoute) {
+  constructor(private af: AngularFire, private firebaseService: FirebaseService,private routes: Router, private route: ActivatedRoute) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
@@ -24,8 +24,13 @@ export class ProjectSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentProjectId = this.route.snapshot.parent.parent.params['id'];
+    this.currentProjectId = this.route.snapshot.parent.params['id'];
     this.currentProject = this.firebaseService.getProject(this.currentProjectId);
   }
 
+  deleteProject() {
+    this.firebaseService.deleteProject(this.currentProjectId);
+    this.routes.navigateByUrl('/home');
+  }
 }
+
