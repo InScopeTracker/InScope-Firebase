@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFire, FirebaseListObservable} from 'angularfire2';
+import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AppComponent } from '../app.component';
@@ -18,6 +18,7 @@ export class ProjectComponent implements OnInit {
   state = '';
   public newTask: string;
   public currentProjectId: any;
+  public currentProject: FirebaseObjectObservable<any>;
 
 
   constructor(private firebaseService: FirebaseService, public app: AppComponent, public af: AngularFire, private router: Router, private route: ActivatedRoute) {
@@ -44,6 +45,7 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.params['id'];
+    this.currentProject = this.firebaseService.getProject(this.currentProjectId);
     this.tasks = this.firebaseService.getTasks(this.currentProjectId);
   }
 
