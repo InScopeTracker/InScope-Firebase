@@ -14,7 +14,7 @@ export class FirebaseService {
             if (auth) {
                 this.authToken = auth;
             }
-        });    
+        });
     }
 
     getProjects() {
@@ -23,12 +23,12 @@ export class FirebaseService {
                 orderByChild: 'owner',
                 equalTo: this.authToken.auth.email,
             }
-        }) as FirebaseListObservable<Project[]>
+        }) as FirebaseListObservable<Project[]>;
         return this.projects;
     }
 
     getProject(id) {
-        this.project = this.af.database.object('/projects/' +id) as FirebaseObjectObservable<Project>;
+        this.project = this.af.database.object('/projects/' + id) as FirebaseObjectObservable<Project>;
         return this.project;
     }
 
@@ -38,23 +38,27 @@ export class FirebaseService {
                 orderByChild: 'projectId',
                 equalTo: projectId,
             }
-        }) as FirebaseListObservable<Task[]>
+        }) as FirebaseListObservable<Task[]>;
         return this.tasks;
+    }
+
+    completeTask(taskKey: string) {
+        this.af.database.object('/tasks/' + taskKey).remove();
     }
 }
 
 interface Project {
-    $key?: string,
-    title?: string,
-    owner?: string,
-    timestamp: Date,
+    $key?: string;
+    title?: string;
+    owner?: string;
+    timestamp: Date;
 }
 
 interface Task {
-    $key?: string,
-    title?: string,
-    owner?: string,
-    projectTitle?: string,
-    projectId: string,
-    timestamp: Date,
+    $key?: string;
+    title?: string;
+    owner?: string;
+    projectTitle?: string;
+    projectId: string;
+    timestamp: Date;
 }

@@ -4,10 +4,12 @@
     <tr>
       <th>Task</th>
       <th>Owner</th>
+      <th></th>
     </tr>
     <tr *ngFor="let task of tasks | async">
       <td><a routerLink="../{{task.task}}">{{task.title}}</a></td>
       <td><a href="#">{{task.owner}}</a></td>
+      <td><button class="btn btn-primary" (click)="completeTask(task)">Complete</button></td>
     </tr>
   </table>
 </div>

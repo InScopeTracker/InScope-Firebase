@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFire, AngularFireDatabase, FirebaseListObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FirebaseService }  from '../services/firebase.service';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-project-tasks',
@@ -42,6 +42,10 @@ export class TaskListComponent implements OnInit {
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.parent.parent.params['id'];
     this.tasks = this.firebaseService.getTasks(this.currentProjectId);
+  }
+
+  completeTask(task: any) {
+    this.firebaseService.completeTask(task.$key);
   }
 
 }
