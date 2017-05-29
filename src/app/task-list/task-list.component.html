@@ -1,5 +1,5 @@
 <div class="row">
-  <h2>{{currentProject}}</h2>
+  <h2>{{(currentProjectName | async)?.title}}</h2>
   <table class="table table-striped table-bordered table-condensed">
     <tr>
       <th>Task</th>

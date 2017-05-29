@@ -11,7 +11,7 @@ import { AuthGuard } from './auth.service';
 import { routes } from './app.routes';
 import { ProjectComponent } from './project/project.component';
 import { TaskComponent } from './task/task.component';
-import { TaskListComponent } from './task-list/task-list';
+import { TaskListComponent } from './task-list/task-list.component';
 import { TaskKanbanComponent } from './task-kanban/task-kanban.component';
 import { ProjectSettingsComponent } from './project-settings/project-settings.component';
 import { TasksViewComponent } from './tasks-view/tasks-view.component';

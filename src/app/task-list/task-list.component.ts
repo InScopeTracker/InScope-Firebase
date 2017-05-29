@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, AngularFireDatabase, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
@@ -16,6 +16,7 @@ export class TaskListComponent implements OnInit {
   state = '';
   public newTask: string;
   public currentProjectId: any;
+  public currentProjectName: FirebaseObjectObservable<any>;
 
   constructor(private firebaseService: FirebaseService, public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router, private route: ActivatedRoute) {
     this.af.auth.subscribe(auth => {
@@ -41,6 +42,7 @@ export class TaskListComponent implements OnInit {
 
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.parent.parent.params['id'];
+    this.currentProjectName = this.firebaseService.getProject(this.currentProjectId);
     this.tasks = this.firebaseService.getTasks(this.currentProjectId);
   }
 
