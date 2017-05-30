@@ -15,6 +15,12 @@
                 <td><label>New Point Value:<input type="text" required [(ngModel)]="updatedCurrentPoints" (keyup.enter)="updateCurrentPoints()"></label></td>
                 <td><button class="btn btn-info" (click)="updateCurrentPoints()">Update</button></td>
             </tr>
+            <tr>
+                <td>Current Project Level:</td>
+                <td>{{(currentProject | async)?.currentLevel}}</td>
+                <td><label>New Level Value:<input type="text" required [(ngModel)]="updatedLevel" (keyup.enter)="updateCurrentLevel()"></label></td>
+                <td><button class="btn btn-info" (click)="updateCurrentLevel()">Update</button></td>
+            </tr>
         </table>
     </div>
 </div>

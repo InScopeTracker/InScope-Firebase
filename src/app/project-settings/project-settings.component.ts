@@ -15,6 +15,7 @@ export class ProjectSettingsComponent implements OnInit {
   public currentProject: FirebaseObjectObservable<any>;
   public updatedProjectInterval: number;
   public updatedCurrentPoints: number;
+  public updatedLevel: number;
   authToken: any;
 
   constructor(private af: AngularFire,
@@ -49,8 +50,14 @@ export class ProjectSettingsComponent implements OnInit {
     if (!this.inputIsValid(this.updatedCurrentPoints)) {
       return;
     }
-
     this.firebaseService.updateCurrentPoints(this.currentProjectId, this.updatedCurrentPoints);
+  }
+
+  updateCurrentLevel() {
+    if (!this.inputIsValid(this.updatedLevel)) {
+      return;
+    }
+    this.firebaseService.updateCurrentLevel(this.currentProjectId, this.updatedLevel);
   }
 
   inputIsValid(input: any): boolean {

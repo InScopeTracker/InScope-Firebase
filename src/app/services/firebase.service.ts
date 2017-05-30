@@ -74,6 +74,11 @@ export class FirebaseService {
     const proj = this.getProject(projectKey);
     proj.update({currentPoints: pointValue});
   }
+
+  updateCurrentLevel(projectKey: string, level: number) {
+    const proj = this.getProject(projectKey);
+    proj.update({currentLevel: level});
+  }
 }
 
 interface Project {
