@@ -33,6 +33,9 @@ export class HomeComponent implements OnInit {
     const project = {
       title: this.newProject,
       owner: this.authToken.auth.email,
+      pointInterval: 20,
+      currentPoints: 0,
+      currentLevel: 1,
       timestamp: Date.now()
     };
     this.projects.push(project);

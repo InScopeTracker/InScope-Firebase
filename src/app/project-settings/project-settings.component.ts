@@ -12,6 +12,7 @@ export class ProjectSettingsComponent implements OnInit {
 
   public currentProjectId: any;
   public currentProject: FirebaseObjectObservable<any>;
+  public updatedProjectInterval: number;
   authToken: any;
 
   constructor(private af: AngularFire,
@@ -33,6 +34,10 @@ export class ProjectSettingsComponent implements OnInit {
   deleteProject() {
     this.firebaseService.deleteProject(this.currentProjectId);
     this.routes.navigateByUrl('/home');
+  }
+
+  updateProjectInterval() {
+    this.firebaseService.updateProjectInterval(this.currentProjectId, this.updatedProjectInterval);
   }
 }
 

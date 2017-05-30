@@ -64,12 +64,20 @@ export class FirebaseService {
 
     this.af.database.object('/projects/' + projectKey).remove();
   }
+
+  updateProjectInterval(projectKey: string, intervalValue: number) {
+    const proj = this.getProject(projectKey);
+    proj.update({pointInterval: intervalValue});
+  }
 }
 
 interface Project {
   $key?: string;
   title?: string;
   owner?: string;
+  pointInterval?: number;
+  currentPoints?: number;
+  currentLevel?: number;
   timestamp: Date;
 }
 

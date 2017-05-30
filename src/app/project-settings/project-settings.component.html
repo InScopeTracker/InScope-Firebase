@@ -1,4 +1,13 @@
 <h1>Settings</h1>
 
-
+<div class="jumbotron">
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <td>Project Point Interval:</td>
+                <td>{{(currentProject | async)?.pointInterval}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
 <button class="btn btn-danger" (click)="deleteProject()">DELETE PROJECT</button>
