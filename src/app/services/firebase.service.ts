@@ -42,6 +42,11 @@ export class FirebaseService {
     return this.tasks;
   }
 
+  getTask(id) {
+    this.task = this.af.database.object('/tasks/' + id) as FirebaseObjectObservable<Task>;
+    return this.task;
+  }
+
   completeTask(taskKey: string) {
     this.af.database.object('/tasks/' + taskKey).remove();
   }

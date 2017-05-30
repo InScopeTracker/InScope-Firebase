@@ -1,3 +1,7 @@
+<h1>{{(task | async)?.title}}</h1>
 <p>
-  Immutable Task View!
+  Owner: {{(task | async)?.owner}}
+</p>
+<p>
+  Timestamp: {{(task | async)?.timestamp}}
 </p>

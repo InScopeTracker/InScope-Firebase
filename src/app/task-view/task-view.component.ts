@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FirebaseObjectObservable} from 'angularfire2';
+import { AppComponent } from '../app.component';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-task-view',
@@ -6,10 +10,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./task-view.component.css']
 })
 export class TaskViewComponent implements OnInit {
+  public task: FirebaseObjectObservable<any>;
 
-  constructor() { }
+  constructor(private firebaseService: FirebaseService,
+              public app: AppComponent,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.task = this.firebaseService.getTask(this.route.snapshot.params['id']);
   }
 
 }
