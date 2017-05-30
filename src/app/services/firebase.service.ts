@@ -69,6 +69,11 @@ export class FirebaseService {
     const proj = this.getProject(projectKey);
     proj.update({pointInterval: intervalValue});
   }
+
+  updateCurrentPoints(projectKey: string, pointValue: number) {
+    const proj = this.getProject(projectKey);
+    proj.update({currentPoints: pointValue});
+  }
 }
 
 interface Project {

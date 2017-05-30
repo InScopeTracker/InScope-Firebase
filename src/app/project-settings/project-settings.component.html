@@ -6,8 +6,14 @@
             <tr>
                 <td>Project Point Interval:</td>
                 <td>{{(currentProject | async)?.pointInterval}}</td>
-                <td><label>New Point Interval:</label><input type="text" [(ngModel)]="updatedProjectInterval" (keyup.enter)="updateProjectInterval()"></td>
+                <td><label>New Point Interval:<input type="text" required [(ngModel)]="updatedProjectInterval" (keyup.enter)="updateProjectInterval()"></label></td>
                 <td><button class="btn btn-info" (click)="updateProjectInterval()">Update</button></td>
+            </tr>
+            <tr>
+                <td>Current Interval Points:</td>
+                <td>{{(currentProject | async)?.currentPoints}}</td>
+                <td><label>New Point Value:<input type="text" required [(ngModel)]="updatedCurrentPoints" (keyup.enter)="updateCurrentPoints()"></label></td>
+                <td><button class="btn btn-info" (click)="updateCurrentPoints()">Update</button></td>
             </tr>
         </table>
     </div>

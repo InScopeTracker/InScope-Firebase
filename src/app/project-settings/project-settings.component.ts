@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-project-settings',
@@ -14,6 +14,7 @@ export class ProjectSettingsComponent implements OnInit {
   public currentProjectId: any;
   public currentProject: FirebaseObjectObservable<any>;
   public updatedProjectInterval: number;
+  public updatedCurrentPoints: number;
   authToken: any;
 
   constructor(private af: AngularFire,
@@ -38,10 +39,22 @@ export class ProjectSettingsComponent implements OnInit {
   }
 
   updateProjectInterval() {
-    if (isNaN(this.updatedProjectInterval) || this.updatedProjectInterval === undefined) {
+    if (!this.inputIsValid(this.updatedProjectInterval)) {
       return;
     }
     this.firebaseService.updateProjectInterval(this.currentProjectId, this.updatedProjectInterval);
+  }
+
+  updateCurrentPoints() {
+    if (!this.inputIsValid(this.updatedCurrentPoints)) {
+      return;
+    }
+
+    this.firebaseService.updateCurrentPoints(this.currentProjectId, this.updatedCurrentPoints);
+  }
+
+  inputIsValid(input: any): boolean {
+    return (!isNaN(input) && input >= 0 && input);
   }
 }
 
