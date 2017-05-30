@@ -6,7 +6,7 @@
       <th></th>
     </tr>
     <tr *ngFor="let task of tasks | async">
-      <td><a routerLink="../{{task.task}}">{{task.title}}</a></td>
+      <td><a routerLink="../{{task.$key}}">{{task.title}}</a></td>
       <td><a href="#">{{task.owner}}</a></td>
       <td><button class="btn btn-primary" (click)="completeTask(task)">Complete</button></td>
     </tr>
