@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
-import { FirebaseService }  from '../services/firebase.service';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-project',
@@ -15,32 +14,18 @@ export class ProjectComponent implements OnInit {
 
   authToken: any;
   public tasks: FirebaseListObservable<any>;
-  state = '';
-  public newTask: string;
   public currentProjectId: any;
   public currentProject: FirebaseObjectObservable<any>;
 
-
-  constructor(private firebaseService: FirebaseService, public app: AppComponent, public af: AngularFire, private router: Router, private route: ActivatedRoute) {
+  constructor(private firebaseService: FirebaseService,
+              public app: AppComponent,
+              public af: AngularFire,
+              private route: ActivatedRoute) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
     });
-  }
-
-  verifyUserAndProject(email, project) {
-    return email === this.authToken.auth.email && project === this.app.currentProject;
-  }
-
-  createTask() {
-    const task = {
-      task: this.newTask,
-      owner: this.authToken.auth.email,
-      projectId: this.currentProjectId,
-      timestamp: Date.now()
-    };
-    this.tasks.push(task);
   }
 
   ngOnInit() {

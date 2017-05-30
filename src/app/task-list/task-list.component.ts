@@ -13,20 +13,20 @@ export class TaskListComponent implements OnInit {
 
   authToken: any;
   public tasks: FirebaseListObservable<any>;
-  state = '';
   public newTask: string;
   public currentProjectId: any;
 
-  constructor(private firebaseService: FirebaseService, public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router, private route: ActivatedRoute) {
+  constructor(private firebaseService: FirebaseService,
+              public app: AppComponent,
+              public af: AngularFire,
+              private db: AngularFireDatabase,
+              private router: Router,
+              private route: ActivatedRoute) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
     });
-  }
-
-  verifyUserAndProject(email, project) {
-    return email === this.authToken.auth.email && project === this.app.currentProject;
   }
 
   createTask() {
@@ -47,5 +47,4 @@ export class TaskListComponent implements OnInit {
   completeTask(task: any) {
     this.firebaseService.completeTask(task.$key);
   }
-
 }

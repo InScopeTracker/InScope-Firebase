@@ -62,7 +62,6 @@ export class FirebaseService {
       this.af.database.object('/tasks/' + key).remove();
     });
 
-
     this.af.database.object('/projects/' + projectKey).remove();
   }
 }

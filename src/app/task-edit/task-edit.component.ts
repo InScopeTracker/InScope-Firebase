@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService }  from '../services/firebase.service';
@@ -16,12 +16,11 @@ export class TaskEditComponent implements OnInit {
   public currentProjectId: string;
   public currentProject: any;
 
-  constructor(
-    private firebaseService: FirebaseService,
-    public app: AppComponent,
-    public af: AngularFire,
-    private router: Router,
-    private route: ActivatedRoute) {
+  constructor(private firebaseService: FirebaseService,
+              public app: AppComponent,
+              public af: AngularFire,
+              private router: Router,
+              private route: ActivatedRoute) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;

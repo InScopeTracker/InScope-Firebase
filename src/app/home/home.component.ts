@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFire, FirebaseListObservable} from 'angularfire2';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Router } from '@angular/router';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { AppComponent } from '../app.component';
-import { FirebaseService }  from '../services/firebase.service';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -13,25 +12,17 @@ import { FirebaseService }  from '../services/firebase.service';
 export class HomeComponent implements OnInit {
   authToken: any;
   public projects: FirebaseListObservable<any>;
-  state = '';
   public newProject: string;
 
-  constructor(private firebaseService: FirebaseService, public app: AppComponent, public af: AngularFire, private db: AngularFireDatabase, private router: Router) {
+  constructor(private firebaseService: FirebaseService,
+              public app: AppComponent,
+              public af: AngularFire,
+              private router: Router) {
     this.af.auth.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
     });
-  }
-
-  /**
-   * Verifies that the email passed in is the same as the currently
-   * logged in user.
-   * @param email
-   * @returns {boolean}
-   */
-  verifyUser(email) {
-    return email === this.authToken.auth.email;
   }
 
   /**
