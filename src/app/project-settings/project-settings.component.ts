@@ -63,5 +63,9 @@ export class ProjectSettingsComponent implements OnInit {
   inputIsValid(input: any): boolean {
     return (!isNaN(input) && input >= 0 && input);
   }
+
+  navToTasks() {
+    this.routes.navigateByUrl('/project/' + this.currentProjectId + '/task/list');
+  }
 }
 
