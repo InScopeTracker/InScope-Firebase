@@ -1,10 +1,6 @@
-<div class="row">
-  <div class="col-md-10">
-    <a class="btn btn-info" routerLink="./list" routerLinkActive="active">View as List</a>
-    <a class="btn btn-info" routerLink="./kanban" routerLinkActive="active">View as Kanban</a>
-  </div>
-  <div class="col-md-2">
-    <a class="btn btn-info" routerLink="./create" routerLinkActive="active">Add Task</a>
-  </div>
-</div>
+<ul class="nav nav-tabs">
+  <li role="presentation" routerLink="./list" routerLinkActive="active"><a>View Task List</a></li>
+  <li role="presentation" routerLink="./kanban" routerLinkActive="active"><a>View Task Kanban</a></li>
+  <li role="presentation" routerLink="./create" routerLinkActive="active"><a>Add Task</a></li>
+</ul>
 <router-outlet></router-outlet>
