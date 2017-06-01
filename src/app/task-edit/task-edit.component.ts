@@ -67,6 +67,7 @@ export class TaskEditComponent implements OnInit {
    * Create or update a task based on the information provided from the form.
    */
   onSubmit(form) {
+    // TODO: Update doesn't work yet...
     const task = {
       title: form.get('name').value,
       owner: this.authToken.auth.email,
