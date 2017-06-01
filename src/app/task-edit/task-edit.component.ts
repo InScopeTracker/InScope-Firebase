@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
@@ -13,7 +13,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class TaskEditComponent implements OnInit {
   authToken: any;
   public tasks: FirebaseListObservable<any>;
-  public newTask: string;
   public currentProjectId: string;
   public currentProject: any;
   public task: FirebaseObjectObservable<any>;
@@ -42,17 +41,11 @@ export class TaskEditComponent implements OnInit {
       name: ['', Validators.required],
       description: ''
     });
-    this.form.setValue({
-      name: '',
-      description: '(this currently does nothing)'
-    });
     this.firebaseService.getTask(this.route.parent.snapshot.params['id']).subscribe(task => {
       this.task = task;
-
-      // TODO: Setting values here is not working - we want to populate from with existing task
       this.form.setValue({
-        name: task.name,
-        description: ''
+        name: task.title || '',
+        description: '(this currently does nothing)'
       });
     });
   }
@@ -62,19 +55,6 @@ export class TaskEditComponent implements OnInit {
     // For now, this only creates a new task.
     const task = {
       title: form.get('name').value,
-      owner: this.authToken.auth.email,
-      projectTitle: this.currentProject.title,
-      projectId: this.currentProjectId,
-      timestamp: Date.now()
-    };
-    this.tasks.push(task).then(() => {
-      this.router.navigateByUrl('/project/' + this.currentProjectId + '/task/list');
-    });
-  }
-
-  createTask() {
-    const task = {
-      title: this.newTask,
       owner: this.authToken.auth.email,
       projectTitle: this.currentProject.title,
       projectId: this.currentProjectId,
