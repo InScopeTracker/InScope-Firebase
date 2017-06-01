@@ -4,6 +4,9 @@
     ".write": "auth != null",
     "tasks": {
       ".indexOn": "projectId"
+    },
+    "projects": {
+      ".indexOn": "owner"
     }
   }
 }

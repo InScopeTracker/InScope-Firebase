@@ -18,6 +18,17 @@ export class TaskEditComponent implements OnInit {
   public task: FirebaseObjectObservable<any>;
   form: FormGroup;
 
+  formErrors = {
+    'name': '',
+    'power': ''
+  };
+
+  validationMessages = {
+    'name': {
+      'required': 'Name is required.'
+    }
+  };
+
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
               public af: AngularFire,
@@ -34,7 +45,7 @@ export class TaskEditComponent implements OnInit {
   ngOnInit() {
     this.currentProjectId = this.route.parent.parent.snapshot.params['id'];
     this.firebaseService.getProject(this.currentProjectId).subscribe(project => {
-        this.currentProject = project;
+      this.currentProject = project;
     });
     this.tasks = this.firebaseService.getTasks(this.currentProjectId);
     this.form = this.fb.group({
@@ -48,11 +59,14 @@ export class TaskEditComponent implements OnInit {
         description: '(this currently does nothing)'
       });
     });
+    this.form.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged(); // (re)set form validation messages now
   }
 
+  /**
+   * Create or update a task based on the information provided from the form.
+   */
   onSubmit(form) {
-    // TODO: Update an existing task
-    // For now, this only creates a new task.
     const task = {
       title: form.get('name').value,
       owner: this.authToken.auth.email,
@@ -64,4 +78,25 @@ export class TaskEditComponent implements OnInit {
       this.router.navigateByUrl('/project/' + this.currentProjectId + '/task/list');
     });
   }
-}
+
+  /**
+   * Set or reset validation messages.
+   */
+  onValueChanged(data?: any) {
+    if (!this.form) {
+      return;
+    }
+    const form = this.form;
+    for (const field in this.formErrors) {
+      // clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
+  }
+};
