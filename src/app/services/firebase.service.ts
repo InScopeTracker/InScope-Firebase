@@ -85,6 +85,7 @@ interface Project {
   $key?: string;
   title?: string;
   owner?: string;
+  members?: string[];
   pointInterval?: number;
   currentPoints?: number;
   currentLevel?: number;
