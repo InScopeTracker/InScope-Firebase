@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
+import {AngularFire, FirebaseObjectObservable} from 'angularfire2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-project-settings',
@@ -15,8 +16,8 @@ export class ProjectSettingsComponent implements OnInit {
   public updatedProjectInterval: number;
   public updatedCurrentPoints: number;
   public updatedLevel: number;
-  public memberList;
   authToken: any;
+  private projMembers$: Observable<any[]>;
 
   constructor(private af: AngularFire,
               private firebaseService: FirebaseService,
@@ -32,13 +33,7 @@ export class ProjectSettingsComponent implements OnInit {
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.parent.params['id'];
     this.currentProject = this.firebaseService.getProject(this.currentProjectId);
-    this.firebaseService.getMembers(this.currentProjectId).subscribe((_members) => {
-      this.memberList = [];
-      _members.forEach(member => {
-        this.memberList.push(member);
-        console.log(member);
-      });
-    });
+    this.projMembers$ = this.af.database.list('/projects/' + this.currentProjectId + '/members');
   }
 
   deleteProject() {
@@ -73,6 +68,10 @@ export class ProjectSettingsComponent implements OnInit {
 
   navToTasks() {
     this.routes.navigateByUrl('/project/' + this.currentProjectId + '/task/list');
+  }
+
+  deleteMembers(member) {
+    this.af.database.list('/projects/' + this.currentProjectId + '/members').remove(member.$key);
   }
 }
 

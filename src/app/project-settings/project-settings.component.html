@@ -28,10 +28,10 @@
 
     <h2>Project Members</h2>
     <div class="list-group">
-        <div class="list-group-item col-md-3" *ngFor="let member of memberList">
+        <div class="list-group-item col-md-3" *ngFor="let member of projMembers$ | async">
             <div class="btn-group" role="group" aria-label="...">
                 <button class="btn btn-default">{{member.$value}}</button>
-                <button class="btn btn-danger">X</button>
+                <button class="btn btn-danger" (click)="deleteMembers(member)">X</button>
             </div>
         </div>
     </div>
