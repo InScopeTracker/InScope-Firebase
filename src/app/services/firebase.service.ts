@@ -79,10 +79,6 @@ export class FirebaseService {
     const proj = this.getProject(projectKey);
     proj.update({currentLevel: level});
   }
-
-  getMembers(projectKey: string) {
-    return this.af.database.list('/projects/' + projectKey + '/members/');
-  }
 }
 
 interface Project {
