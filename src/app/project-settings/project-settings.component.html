@@ -8,25 +8,32 @@
             <tr>
                 <td>Project Point Interval:</td>
                 <td>{{(currentProject | async)?.pointInterval}}</td>
-                <td><label>New Point Interval:<input type="text" required [(ngModel)]="updatedProjectInterval" (keyup.enter)="updateProjectInterval()"></label></td>
+                <td><label>New Point Interval:<input type="text" required [(ngModel)]="updatedProjectInterval" (keyup.enter)="updateProjectInterval()" /></label></td>
                 <td><button class="btn btn-info" (click)="updateProjectInterval()">Update</button></td>
             </tr>
             <tr>
                 <td>Current Interval Points:</td>
                 <td>{{(currentProject | async)?.currentPoints}}</td>
-                <td><label>New Point Value:<input type="text" required [(ngModel)]="updatedCurrentPoints" (keyup.enter)="updateCurrentPoints()"></label></td>
+                <td><label>New Point Value:<input type="text" required [(ngModel)]="updatedCurrentPoints" (keyup.enter)="updateCurrentPoints()" /></label></td>
                 <td><button class="btn btn-info" (click)="updateCurrentPoints()">Update</button></td>
             </tr>
             <tr>
                 <td>Current Project Level:</td>
                 <td>{{(currentProject | async)?.currentLevel}}</td>
-                <td><label>New Level Value:<input type="text" required [(ngModel)]="updatedLevel" (keyup.enter)="updateCurrentLevel()"></label></td>
+                <td><label>New Level Value:<input type="text" required [(ngModel)]="updatedLevel" (keyup.enter)="updateCurrentLevel()" /></label></td>
                 <td><button class="btn btn-info" (click)="updateCurrentLevel()">Update</button></td>
             </tr>
         </table>
     </div>
-
     <h2>Project Members</h2>
+    <div class="row">
+        <div class="col-xs-8">
+            <label>Add New Member:
+                <input type="text" required />
+                <button class="btn btn-info">Add Member</button>
+            </label>
+        </div>
+    </div>
     <div class="list-group">
         <div class="list-group-item col-md-3" *ngFor="let member of projMembers$ | async">
             <div class="btn-group" role="group" aria-label="...">
@@ -36,5 +43,10 @@
         </div>
     </div>
 </div>
-<button class="btn btn-danger" (click)="deleteProject()">DELETE PROJECT</button>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <button class="btn btn-danger" (click)="deleteProject()">DELETE PROJECT</button>
+        </div>
+    </div>
 </div>
