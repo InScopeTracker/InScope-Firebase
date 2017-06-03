@@ -1,11 +1,10 @@
 
 <div class="row">
-<div class="col-lg-12">
-  <div class="row"> 
-    <div *ngFor="let status of statuses" class="col-lg-4">
-      <h3>{{status}}</h3>
-      <div *ngFor="let task of tasks | async">
-        <div *ngIf="task.taskStatus == status" class="panel panel-default">
+  <div class="col-lg-12">
+    <div class="row"> 
+      <div *ngFor="let status of statuses" class="col-lg-4">
+        <h3>{{status}}</h3>
+        <div class="panel panel-default" *ngFor="let task of tasks | filter: 'taskStatus' : status">
           <div class="panel panel-body">
             <a class="col-lg-12" routerLink="../{{task.$key}}">{{task.title}}</a>
             <a class="col-lg-12" href="#">{{task.owner}}</a>
@@ -13,8 +12,6 @@
           </div>
         </div>
       </div>
-    <div></div>
     </div>
   </div>
-</div>
 </div>
