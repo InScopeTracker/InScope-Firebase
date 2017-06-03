@@ -46,8 +46,8 @@ export class TaskEditComponent implements OnInit, OnDestroy {
       this.firebaseService.task.subscribe(task => {
         this.form.setValue({
           name: task.title || '',
-          taskStatus: task.taskStatus || '',
-          description: '(this currently does nothing)'
+          taskStatus: task.taskStatus || this.statuses[0],
+          description: task.description || ''
         });
       });
     }
@@ -77,7 +77,8 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     const projectId = this.project.$key;
     this.firebaseService.updateTask({
       title: form.get('name').value,
-      taskStatus: form.get('taskStatus').value
+      taskStatus: form.get('taskStatus').value,
+      description: form.get('description').value
     }).then(() => {
       this.router.navigateByUrl(`/project/${projectId}/task/list`);
     }).catch(e => {

@@ -1,8 +1,12 @@
 <div class="container">
   <div class="row">
-    <h1 class="col-md-8">{{(currentProject | async)?.title}}</h1>
-    <div class="col-md-4">
-      <a class="btn btn-info" routerLink="./settings">Project Settings</a>
+    <div class="col-xs-11">
+      <h1><a routerLink="./task/list" routerLinkActive="active">{{(currentProject | async)?.title}}</a></h1>
+    </div>
+    <div class="col-xs-1">
+      <button type="button" class="btn btn-lg btn-link pull-right" routerLink="./settings">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
   <div class="row">
