@@ -16,6 +16,7 @@ export class ProjectSettingsComponent implements OnInit {
   public updatedProjectInterval: number;
   public updatedCurrentPoints: number;
   public updatedLevel: number;
+  public newMember: string;
   authToken: any;
   private projMembers$: Observable<any[]>;
 
@@ -72,6 +73,11 @@ export class ProjectSettingsComponent implements OnInit {
 
   deleteMembers(member) {
     this.af.database.list('/projects/' + this.currentProjectId + '/members').remove(member.$key);
+  }
+
+  addMember() {
+    console.log(this.newMember);
+    this.af.database.list('/projects/' + this.currentProjectId + '/members').push(this.newMember);
   }
 }
 
