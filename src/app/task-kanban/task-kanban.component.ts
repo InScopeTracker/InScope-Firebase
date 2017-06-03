@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { FirebaseService } from '../services/firebase.service';
 import { ActivatedRoute } from '@angular/router';
-import { CallbackPipe } from '../services/filter.pipe';
+import { FilterPipe } from '../services/filter.pipe';
 
 @Component({
   selector: 'app-task-kanban',
@@ -29,7 +29,6 @@ export class TaskKanbanComponent implements OnInit {
     this.currentProjectId = this.route.snapshot.parent.parent.params['id'];
     this.firebaseService.getTasks(this.currentProjectId).subscribe(tasks => {
       this.tasks = tasks;
-      console.log(this.tasks);
     }); 
   }
 
