@@ -47,6 +47,14 @@ export class FirebaseService {
     return this.task;
   }
 
+  saveTask(task) {
+    return this.tasks.push(task);
+  }
+
+  updateTask(taskProperties) {
+    return this.task.update(taskProperties);
+  }
+
   completeTask(taskKey: string) {
     this.af.database.object('/tasks/' + taskKey).remove();
   }

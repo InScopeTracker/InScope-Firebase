@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
@@ -11,11 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./task-edit.component.css']
 })
 export class TaskEditComponent implements OnInit {
-  authToken: any;
-  public tasks: FirebaseListObservable<any>;
-  public currentProjectId: string;
-  public currentProject: any;
-  public task: FirebaseObjectObservable<any>;
+  public project: any;
+  public task: any;
   form: FormGroup;
 
   formErrors = {
@@ -31,53 +27,58 @@ export class TaskEditComponent implements OnInit {
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
-              public af: AngularFire,
               public fb: FormBuilder,
               private router: Router,
-              private route: ActivatedRoute) {
-    this.af.auth.subscribe(auth => {
-      if (auth) {
-        this.authToken = auth;
-      }
-    });
-  }
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.currentProjectId = this.route.parent.parent.snapshot.params['id'];
-    this.firebaseService.getProject(this.currentProjectId).subscribe(project => {
-      this.currentProject = project;
-    });
-    this.tasks = this.firebaseService.getTasks(this.currentProjectId);
+    this.firebaseService.project.subscribe(project => this.project = project);
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ''
     });
-    this.firebaseService.getTask(this.route.parent.snapshot.params['id']).subscribe(task => {
-      this.task = task;
-      this.form.setValue({
-        name: task.title || '',
-        description: '(this currently does nothing)'
-      });
-    });
     this.form.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set form validation messages now
+
+    if (this.route.snapshot.url[0].path === 'create') {
+      this.firebaseService.task = null;
+    } else {
+      this.firebaseService.task = this.firebaseService.getTask(this.route.parent.snapshot.params['id']);
+      this.firebaseService.task.subscribe(task => {
+        this.form.setValue({
+          name: task.title || '',
+          description: '(this currently does nothing)'
+        });
+      });
+    }
   }
 
   /**
    * Create or update a task based on the information provided from the form.
    */
   onSubmit(form) {
-    // TODO: Update doesn't work yet...
-    const task = {
-      title: form.get('name').value,
-      owner: this.authToken.auth.email,
-      projectTitle: this.currentProject.title,
-      projectId: this.currentProjectId,
-      timestamp: Date.now()
-    };
-    this.tasks.push(task).then(() => {
-      this.router.navigateByUrl('/project/' + this.currentProjectId + '/task/list');
-    });
+    const projectId = this.project.$key;
+    if (this.firebaseService.task) {
+      // Update the existing task.
+      this.firebaseService.updateTask({title: form.get('name').value}).then(() => {
+        this.router.navigateByUrl(`/project/${projectId}/task/list`);
+      }).catch(e => {
+        console.log('an error!', e);
+      });
+    } else {
+      // Create a new task.
+      this.firebaseService.saveTask({
+        title: form.get('name').value,
+        owner: this.firebaseService.authToken.auth.email,
+        projectTitle: this.project.title,
+        projectId: this.project.$key,
+        timestamp: Date.now()
+      }).then(() => {
+        this.router.navigateByUrl(`/project/${projectId}/task/list`);
+      }).catch(e => {
+        console.log('an error!', e);
+      });
+    }
   }
 
   /**
