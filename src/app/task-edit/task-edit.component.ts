@@ -14,6 +14,8 @@ export class TaskEditComponent implements OnInit {
   public task: any;
   form: FormGroup;
 
+  statuses = ['To-Do', 'Delegated', 'Doing'];
+
   formErrors = {
     'name': '',
     'power': ''
@@ -35,6 +37,7 @@ export class TaskEditComponent implements OnInit {
     this.firebaseService.project.subscribe(project => this.project = project);
     this.form = this.fb.group({
       name: ['', Validators.required],
+      taskStatus: '',
       description: ''
     });
     this.form.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -47,6 +50,7 @@ export class TaskEditComponent implements OnInit {
       this.firebaseService.task.subscribe(task => {
         this.form.setValue({
           name: task.title || '',
+          taskStatus: task.taskStatus,
           description: '(this currently does nothing)'
         });
       });
@@ -60,7 +64,7 @@ export class TaskEditComponent implements OnInit {
     const projectId = this.project.$key;
     if (this.firebaseService.task) {
       // Update the existing task.
-      this.firebaseService.updateTask({title: form.get('name').value}).then(() => {
+      this.firebaseService.updateTask({title: form.get('name').value, taskStatus: form.get('taskStatus').value}).then(() => {
         this.router.navigateByUrl(`/project/${projectId}/task/list`);
       }).catch(e => {
         console.log('an error!', e);
@@ -72,6 +76,7 @@ export class TaskEditComponent implements OnInit {
         owner: this.firebaseService.authToken.auth.email,
         projectTitle: this.project.title,
         projectId: this.project.$key,
+        taskStatus: form.get('taskStatus').value,
         timestamp: Date.now()
       }).then(() => {
         this.router.navigateByUrl(`/project/${projectId}/task/list`);
