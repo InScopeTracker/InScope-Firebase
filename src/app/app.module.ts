@@ -19,6 +19,7 @@ import { TaskViewComponent } from './task-view/task-view.component';
 import { TaskEditComponent } from './task-edit/task-edit.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FirebaseService } from './services/firebase.service';
+import { FilterPipe } from './services/filter.pipe';
 
 
 export const firebaseConfig = {
@@ -44,6 +45,7 @@ export const firebaseConfig = {
     TaskViewComponent,
     TaskEditComponent,
     PageNotFoundComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
