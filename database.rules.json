@@ -3,10 +3,10 @@
     ".read": "auth != null",
     ".write": "auth != null",
     "tasks": {
-      ".indexOn": "projectId"
+      ".indexOn": ["projectId"]
     },
     "projects": {
-      ".indexOn": "owner"
+      ".indexOn": ["owner"]
     }
   }
 }
