@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import {isNull, isNullOrUndefined} from "util";
 
 @Injectable()
 export class FirebaseService {
@@ -66,8 +67,10 @@ export class FirebaseService {
         equalTo: projectKey
       }
     }).subscribe(res => {
-      const key = res[0].$key;
-      this.af.database.object('/tasks/' + key).remove();
+      if (res[0] != null && res[0] !== undefined) {
+        const key = res[0].$key;
+        this.af.database.object('/tasks/' + key).remove();
+      }
     });
 
     this.af.database.object('/projects/' + projectKey).remove();
