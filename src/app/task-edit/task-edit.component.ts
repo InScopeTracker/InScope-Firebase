@@ -121,12 +121,14 @@ export class TaskEditComponent implements OnInit, OnDestroy {
    */
   createTask(form) {
     const projectId = this.project.$key;
+    console.log(form.get('description').value);
     this.firebaseService.saveTask({
       title: form.get('name').value,
       owner: this.firebaseService.authToken.auth.email,
       projectTitle: this.project.title,
       projectId: this.project.$key,
       taskStatus: form.get('taskStatus').value,
+      description: form.get('description').value,
       timestamp: Date.now()
     }).then(snapshot => {
       this.router.navigateByUrl(`/project/${projectId}/task/${snapshot.key}`);

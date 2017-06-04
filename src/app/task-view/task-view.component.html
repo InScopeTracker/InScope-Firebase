@@ -25,10 +25,10 @@
   </div>
   <div class="row">
     <div class="col-sm-3">
-      <p><strong>Timestamp</strong></p>
+      <p><strong>Date Created</strong></p>
     </div>
     <div class="col-sm-9">
-      {{(task | async)?.timestamp}}
+      {{(task | async)?.timestamp | date}}
     </div>
   </div>
   <div class="row">
