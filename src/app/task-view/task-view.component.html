@@ -1,7 +1,42 @@
-<h1>{{(task | async)?.title}}</h1>
-<p>
-  Owner: {{(task | async)?.owner}}
-</p>
-<p>
-  Timestamp: {{(task | async)?.timestamp}}
-</p>
+<div class="container">
+  <div class="row">
+    <h2>{{(task | async)?.title}}</h2>
+  </div>
+  <div class="row">
+    <div class="col-sm-2 col-sm-offset-10">
+      <a class="btn btn-link" routerLink="./edit" routerActiveLink="active">Edit Task</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <p><strong>Owner</strong></p>
+    </div>
+    <div class="col-sm-9">
+      {{(task | async)?.owner}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <p><strong>Status</strong></p>
+    </div>
+    <div class="col-sm-9">
+      {{(task | async)?.taskStatus}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <p><strong>Timestamp</strong></p>
+    </div>
+    <div class="col-sm-9">
+      {{(task | async)?.timestamp}}
+    </div>
+  </div>
+  <div class="row">
+    <h3>Description</h3>
+  </div>
+  <div class="row">
+    <div class="well well-sm">
+      <p>{{(task | async)?.description}}</p>
+    </div>
+  </div>
+</div>
