@@ -20,7 +20,7 @@ import { TaskEditComponent } from './task-edit/task-edit.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FirebaseService } from './services/firebase.service';
 import { FilterPipe } from './services/filter.pipe';
-
+import { ModalComponent } from './modal/modal.component';
 
 export const firebaseConfig = {
     apiKey: 'AIzaSyCXEdBDFU1BSbcteFDK7ueX_LzksCyC5tA',
@@ -46,6 +46,7 @@ export const firebaseConfig = {
     TaskEditComponent,
     PageNotFoundComponent,
     FilterPipe,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

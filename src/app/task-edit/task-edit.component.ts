@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-task-edit',
@@ -15,6 +16,9 @@ export class TaskEditComponent implements OnInit, OnDestroy {
   public isUpdateTask: boolean;
   public title: string;
   form: FormGroup;
+
+  @ViewChild(ModalComponent)
+  public readonly modal: ModalComponent;
 
   statuses: string[] = ['To-Do', 'Delegated', 'Doing'];
 
@@ -73,6 +77,26 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     } else {
       this.createTask(form);
     }
+  }
+
+  /**
+   * Cancel this action and change views.
+   */
+  onCancel() {
+    if (this.isUpdateTask) {
+      this.router.navigateByUrl(`/project/${this.project.$key}/task/${this.task.$key}`);
+    } else {
+      this.router.navigateByUrl(`/project/${this.project.$key}/task/list`);
+    }
+  }
+
+  /**
+   * Delete the task and return to the project task list view.
+   */
+  onDelete() {
+    const projectId = this.project.$key;
+    this.firebaseService.deleteTask(this.task.$key).then(() =>
+        this.router.navigateByUrl(`/project/${projectId}/task/list`));
   }
 
   /**

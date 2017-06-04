@@ -60,6 +60,10 @@ export class FirebaseService {
     this.af.database.object('/tasks/' + taskKey).remove();
   }
 
+  deleteTask(taskKey: string) {
+    return this.task.remove();
+  }
+
   deleteProject(projectKey: string) {
     this.af.database.list('/tasks', {
       query: {
