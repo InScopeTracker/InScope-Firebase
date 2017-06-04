@@ -12,6 +12,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class TaskEditComponent implements OnInit, OnDestroy {
   public project: any;
   public task: any;
+  public isUpdateTask: boolean;
+  public title: string;
   form: FormGroup;
 
   statuses: string[] = ['To-Do', 'Delegated', 'Doing'];
@@ -34,6 +36,8 @@ export class TaskEditComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.isUpdateTask = this.route.snapshot.url[0].path !== 'create';
+    this.title = this.isUpdateTask ? 'Update Task' : 'Create Task';
     this.firebaseService.project.subscribe(project => this.project = project);
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -41,9 +45,10 @@ export class TaskEditComponent implements OnInit, OnDestroy {
       description: ''
     });
     // Get task and set appropriate properties if this is a task update.
-    if (this.route.snapshot.url[0].path !== 'create') {
+    if (this.isUpdateTask) {
       this.firebaseService.task = this.firebaseService.getTask(this.route.parent.snapshot.params['id']);
       this.firebaseService.task.subscribe(task => {
+        this.task = task;
         this.form.setValue({
           name: task.title || '',
           taskStatus: task.taskStatus || this.statuses[0],
@@ -63,7 +68,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
    * Create or update a task based on the information provided from the form.
    */
   onSubmit(form) {
-    if (this.firebaseService.task) {
+    if (this.isUpdateTask) {
       this.updateTask(form);
     } else {
       this.createTask(form);
@@ -75,12 +80,13 @@ export class TaskEditComponent implements OnInit, OnDestroy {
    */
   updateTask(form) {
     const projectId = this.project.$key;
+    const taskId = this.task.$key;
     this.firebaseService.updateTask({
       title: form.get('name').value,
       taskStatus: form.get('taskStatus').value,
       description: form.get('description').value
     }).then(() => {
-      this.router.navigateByUrl(`/project/${projectId}/task/list`);
+      this.router.navigateByUrl(`/project/${projectId}/task/${taskId}`);
     }).catch(e => {
       console.log('an error!', e);
     });
@@ -98,8 +104,8 @@ export class TaskEditComponent implements OnInit, OnDestroy {
       projectId: this.project.$key,
       taskStatus: form.get('taskStatus').value,
       timestamp: Date.now()
-    }).then(() => {
-      this.router.navigateByUrl(`/project/${projectId}/task/list`);
+    }).then(snapshot => {
+      this.router.navigateByUrl(`/project/${projectId}/task/${snapshot.key}`);
     }).catch(e => {
       console.log('an error!', e);
     });
@@ -125,4 +131,4 @@ export class TaskEditComponent implements OnInit, OnDestroy {
       }
     }
   }
-};
+}
