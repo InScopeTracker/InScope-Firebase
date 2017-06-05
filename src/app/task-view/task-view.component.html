@@ -25,6 +25,14 @@
   </div>
   <div class="row">
     <div class="col-sm-3">
+      <p><strong>Point Value</strong></p>
+    </div>
+    <div class="col-sm-9">
+      {{(task | async)?.taskPointValue}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
       <p><strong>Date Created</strong></p>
     </div>
     <div class="col-sm-9">

@@ -46,6 +46,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       name: ['', Validators.required],
       taskStatus: this.statuses[0],
+      taskPointValue: '',
       description: ''
     });
     // Get task and set appropriate properties if this is a task update.
@@ -56,6 +57,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
         this.form.setValue({
           name: task.title || '',
           taskStatus: task.taskStatus || this.statuses[0],
+          taskPointValue: task.taskPointValue || '',
           description: task.description || ''
         });
       });
@@ -127,6 +129,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
       projectTitle: this.project.title,
       projectId: this.project.$key,
       taskStatus: form.get('taskStatus').value,
+      taskPointValue: form.get('taskPointValue').value,
       description: form.get('description').value,
       timestamp: Date.now()
     }).then(snapshot => {

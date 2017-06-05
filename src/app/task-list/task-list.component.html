@@ -3,11 +3,13 @@
     <tr>
       <th>Task</th>
       <th>Status</th>
+      <th>Point Value</th>
       <th>Options</th>
     </tr>
     <tr *ngFor="let task of tasks | async">
       <td><a routerLink="../{{task.$key}}">{{task.title}}</a></td>
       <td><a href="#">{{task.taskStatus}}</a></td>
+      <td><a href="#">{{task.taskPointValue}}</a></td>
       <td>
         <button routerLink="../{{task.$key}}/edit" class="btn btn-info">Edit</button>
         <button class="btn btn-info" (click)="completeTask(task)">Complete</button>
