@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseListObservable } from 'angularfire2/database';
-import { AppComponent } from '../app.component';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
-import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-project-tasks',
@@ -11,21 +9,11 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit {
-
-  authToken: any;
   public tasks: FirebaseListObservable<any>;
   public currentProjectId: any;
 
   constructor(private firebaseService: FirebaseService,
-              public app: AppComponent,
-              public afAuth: AngularFireAuth,
-              private route: ActivatedRoute) {
-    this.afAuth.idToken.subscribe(auth => {
-      if (auth) {
-        this.authToken = auth;
-      }
-    });
-  }
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.parent.parent.params['id'];

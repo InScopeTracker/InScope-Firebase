@@ -3,7 +3,6 @@ import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/d
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
-import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-project',
@@ -12,22 +11,13 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 
 export class ProjectComponent implements OnInit {
-
-  authToken: any;
   public tasks: FirebaseListObservable<any>;
   public currentProjectId: any;
   public currentProject: FirebaseObjectObservable<any>;
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
-              public afAuth: AngularFireAuth,
-              private route: ActivatedRoute) {
-    this.afAuth.idToken.subscribe(auth => {
-      if (auth) {
-        this.authToken = auth;
-      }
-    });
-  }
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.params['id'];

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class FirebaseService {
@@ -9,22 +9,15 @@ export class FirebaseService {
   tasks: FirebaseListObservable<any[]>;
   project: FirebaseObjectObservable<any>;
   task: FirebaseObjectObservable<any>;
-  user: any;
-  authToken: any;
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
-    this.afAuth.idToken.subscribe(auth => {
-      if (auth) {
-        this.authToken = auth;
-      }
-    });
-  }
+  constructor(private authService: AuthService,
+              private db: AngularFireDatabase) { }
 
   getProjects() {
     this.projects = this.db.list('/projects', {
       query: {
         orderByChild: 'owner',
-        equalTo: this.user.email,
+        equalTo: this.authService.user.email,
       }
     }) as FirebaseListObservable<Project[]>;
     return this.projects;

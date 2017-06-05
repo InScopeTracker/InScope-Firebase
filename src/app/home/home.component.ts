@@ -3,7 +3,7 @@ import { FirebaseListObservable } from 'angularfire2/database';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -11,20 +11,13 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  authToken: any;
   public projects: FirebaseListObservable<any>;
   public newProject: string;
 
-  constructor(private firebaseService: FirebaseService,
+  constructor(private authService: AuthService,
+              private firebaseService: FirebaseService,
               public app: AppComponent,
-              public afAuth: AngularFireAuth,
-              private router: Router) {
-    this.afAuth.idToken.subscribe(auth => {
-      if (auth) {
-        this.authToken = auth;
-      }
-    });
-  }
+              private router: Router) { }
 
   /**
    * Creates a new project and pushes it to the firebase
@@ -33,8 +26,8 @@ export class HomeComponent implements OnInit {
   createProject() {
     const project = {
       title: this.newProject,
-      owner: this.authToken.auth.email,
-      members: [this.authToken.auth.email],
+      owner: this.authService.user.email,
+      members: [this.authService.user.email],
       pointInterval: 20,
       currentPoints: 0,
       currentLevel: 1,

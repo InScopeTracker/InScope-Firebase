@@ -9,7 +9,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 import { routes } from './app.routes';
 import { ProjectComponent } from './project/project.component';
 import { TaskComponent } from './task/task.component';
@@ -60,7 +61,11 @@ export const firebaseConfig = {
     AngularFireAuthModule,
     routes
   ],
-  providers: [AuthGuard, FirebaseService],
+  providers: [
+    AuthService,
+    AuthGuardService,
+    FirebaseService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

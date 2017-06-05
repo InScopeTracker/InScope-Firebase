@@ -3,7 +3,6 @@ import { FirebaseObjectObservable } from 'angularfire2/database';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { Observable } from 'rxjs/Observable';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
@@ -19,20 +18,12 @@ export class ProjectSettingsComponent implements OnInit {
   public updatedCurrentPoints: number;
   public updatedLevel: number;
   public newMember: string;
-  authToken: any;
   private projMembers$: Observable<any[]>;
 
-  constructor(private afAuth: AngularFireAuth,
-              private db: AngularFireDatabase,
+  constructor(private db: AngularFireDatabase,
               private firebaseService: FirebaseService,
               private routes: Router,
-              private route: ActivatedRoute) {
-    this.afAuth.idToken.subscribe(auth => {
-      if (auth) {
-        this.authToken = auth;
-      }
-    });
-  }
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.parent.params['id'];
