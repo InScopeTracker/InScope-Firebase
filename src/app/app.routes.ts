@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProjectComponent } from './project/project.component';
-import { AuthGuard } from './auth.service';
+import { AuthGuard } from './services/auth-guard.service';
 import { TaskComponent } from './task/task.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskKanbanComponent } from './task-kanban/task-kanban.component';

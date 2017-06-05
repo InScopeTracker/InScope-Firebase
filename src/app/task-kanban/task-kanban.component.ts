@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { FirebaseService } from '../services/firebase.service';
 import { ActivatedRoute } from '@angular/router';
 import { FilterPipe } from '../services/filter.pipe';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-task-kanban',
@@ -16,9 +16,9 @@ export class TaskKanbanComponent implements OnInit {
   statuses = ['To-Do', 'Delegated', 'Doing'];
 
   constructor(private firebaseService: FirebaseService,
-              public af: AngularFire,
+              public afAuth: AngularFireAuth,
               private route: ActivatedRoute) {
-    this.af.auth.subscribe(auth => {
+    this.afAuth.idToken.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
@@ -29,7 +29,7 @@ export class TaskKanbanComponent implements OnInit {
     this.currentProjectId = this.route.snapshot.parent.parent.params['id'];
     this.firebaseService.getTasks(this.currentProjectId).subscribe(tasks => {
       this.tasks = tasks;
-    }); 
+    });
   }
 
   completeTask(task: any) {

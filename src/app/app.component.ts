@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { AngularFire } from 'angularfire2';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +12,12 @@ import { Router } from '@angular/router';
 export class AppComponent {
   public isLoggedIn: Boolean;
   public currentProject: string;
+  user: Observable<firebase.User>;
   authToken: any;
 
-  constructor(public af: AngularFire, private router: Router) {
-    this.af.auth.subscribe(auth => {
+  constructor(public afAuth: AngularFireAuth, private router: Router) {
+    this.user = this.afAuth.authState;
+    this.user.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
         this.isLoggedIn = true;
@@ -22,8 +26,8 @@ export class AppComponent {
   }
 
   logout() {
-    this.af.auth.logout();
-    console.log('logged out');
+    this.afAuth.auth.signOut().then(() => console.log('logged out'));
+    // TODO: Redirect after logout is complete.
     this.isLoggedIn = false;
     this.router.navigateByUrl('/login');
   }

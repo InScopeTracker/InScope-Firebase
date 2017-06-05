@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseListObservable } from 'angularfire2/database';
 import { AppComponent } from '../app.component';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-project-tasks',
@@ -17,9 +18,9 @@ export class TaskListComponent implements OnInit {
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
-              public af: AngularFire,
+              public afAuth: AngularFireAuth,
               private route: ActivatedRoute) {
-    this.af.auth.subscribe(auth => {
+    this.afAuth.idToken.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }

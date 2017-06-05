@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { FirebaseListObservable } from 'angularfire2/database';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +17,9 @@ export class HomeComponent implements OnInit {
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
-              public af: AngularFire,
+              public afAuth: AngularFireAuth,
               private router: Router) {
-    this.af.auth.subscribe(auth => {
+    this.afAuth.idToken.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }

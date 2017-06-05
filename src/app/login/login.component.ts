@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import { Observable } from 'rxjs/Observable';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-login',
@@ -8,11 +11,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   error: any;
+  user: Observable<firebase.User>;
 
-  constructor(public af: AngularFire, private router: Router) {
-    this.af.auth.subscribe(auth => {
+  constructor(public afAuth: AngularFireAuth,
+              private router: Router,
+              private firebaseService: FirebaseService) {
+    this.user = this.afAuth.authState;
+    this.user.subscribe(auth => {
       if (auth) {
         this.router.navigateByUrl('/home');
       }
@@ -23,10 +29,9 @@ export class LoginComponent implements OnInit {
   }
 
   loginGoogle() {
-    this.af.auth.login({
-      provider: AuthProviders.Google,
-      method: AuthMethods.Popup,
-    }).then((success) => {
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((result) => {
+      this.firebaseService.authToken = result.credential.accessToken;
+      this.firebaseService.user = result.user;
       this.router.navigate(['/home']);
     }).catch((err) => {
       this.error = err;

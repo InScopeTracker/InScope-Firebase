@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFire, FirebaseObjectObservable} from 'angularfire2';
+import { FirebaseObjectObservable } from 'angularfire2/database';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { Observable } from 'rxjs/Observable';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'app-project-settings',
@@ -20,11 +22,12 @@ export class ProjectSettingsComponent implements OnInit {
   authToken: any;
   private projMembers$: Observable<any[]>;
 
-  constructor(private af: AngularFire,
+  constructor(private afAuth: AngularFireAuth,
+              private db: AngularFireDatabase,
               private firebaseService: FirebaseService,
               private routes: Router,
               private route: ActivatedRoute) {
-    this.af.auth.subscribe(auth => {
+    this.afAuth.idToken.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
@@ -34,7 +37,7 @@ export class ProjectSettingsComponent implements OnInit {
   ngOnInit() {
     this.currentProjectId = this.route.snapshot.parent.params['id'];
     this.currentProject = this.firebaseService.getProject(this.currentProjectId);
-    this.projMembers$ = this.af.database.list('/projects/' + this.currentProjectId + '/members');
+    this.projMembers$ = this.db.list('/projects/' + this.currentProjectId + '/members');
   }
 
   deleteProject() {
@@ -72,12 +75,12 @@ export class ProjectSettingsComponent implements OnInit {
   }
 
   deleteMembers(member) {
-    this.af.database.list('/projects/' + this.currentProjectId + '/members').remove(member.$key);
+    this.db.list('/projects/' + this.currentProjectId + '/members').remove(member.$key);
   }
 
   addMember() {
     console.log(this.newMember);
-    this.af.database.list('/projects/' + this.currentProjectId + '/members').push(this.newMember);
+    this.db.list('/projects/' + this.currentProjectId + '/members').push(this.newMember);
   }
 }
 

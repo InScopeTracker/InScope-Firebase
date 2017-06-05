@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-project',
@@ -19,9 +20,9 @@ export class ProjectComponent implements OnInit {
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
-              public af: AngularFire,
+              public afAuth: AngularFireAuth,
               private route: ActivatedRoute) {
-    this.af.auth.subscribe(auth => {
+    this.afAuth.idToken.subscribe(auth => {
       if (auth) {
         this.authToken = auth;
       }
