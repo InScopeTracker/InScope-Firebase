@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-import {isNull, isNullOrUndefined} from "util";
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class FirebaseService {
@@ -8,33 +9,27 @@ export class FirebaseService {
   tasks: FirebaseListObservable<any[]>;
   project: FirebaseObjectObservable<any>;
   task: FirebaseObjectObservable<any>;
-  authToken: any;
 
-  constructor(private af: AngularFire) {
-    this.af.auth.subscribe(auth => {
-      if (auth) {
-        this.authToken = auth;
-      }
-    });
-  }
+  constructor(private authService: AuthService,
+              private db: AngularFireDatabase) { }
 
   getProjects() {
-    this.projects = this.af.database.list('/projects', {
+    this.projects = this.db.list('/projects', {
       query: {
         orderByChild: 'owner',
-        equalTo: this.authToken.auth.email,
+        equalTo: this.authService.user.email,
       }
     }) as FirebaseListObservable<Project[]>;
     return this.projects;
   }
 
   getProject(id) {
-    this.project = this.af.database.object('/projects/' + id) as FirebaseObjectObservable<Project>;
+    this.project = this.db.object('/projects/' + id) as FirebaseObjectObservable<Project>;
     return this.project;
   }
 
   getTasks(projectId) {
-    this.tasks = this.af.database.list('/tasks', {
+    this.tasks = this.db.list('/tasks', {
       query: {
         orderByChild: 'projectId',
         equalTo: projectId,
@@ -44,7 +39,7 @@ export class FirebaseService {
   }
 
   getTask(id) {
-    this.task = this.af.database.object('/tasks/' + id) as FirebaseObjectObservable<Task>;
+    this.task = this.db.object('/tasks/' + id) as FirebaseObjectObservable<Task>;
     return this.task;
   }
 
@@ -57,7 +52,7 @@ export class FirebaseService {
   }
 
   completeTask(taskKey: string) {
-    this.af.database.object('/tasks/' + taskKey).remove();
+    this.db.object('/tasks/' + taskKey).remove();
   }
 
   deleteTask(taskKey: string) {
@@ -65,7 +60,7 @@ export class FirebaseService {
   }
 
   deleteProject(projectKey: string) {
-    this.af.database.list('/tasks', {
+    this.db.list('/tasks', {
       query: {
         orderByChild: 'projectId',
         equalTo: projectKey
@@ -73,11 +68,11 @@ export class FirebaseService {
     }).subscribe(res => {
       if (res[0] != null && res[0] !== undefined) {
         const key = res[0].$key;
-        this.af.database.object('/tasks/' + key).remove();
+        this.db.object('/tasks/' + key).remove();
       }
     });
 
-    this.af.database.object('/projects/' + projectKey).remove();
+    this.db.object('/projects/' + projectKey).remove();
   }
 
   updateProjectInterval(projectKey: string, intervalValue: number) {

@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProjectComponent } from './project/project.component';
-import { AuthGuard } from './auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 import { TaskComponent } from './task/task.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TaskKanbanComponent } from './task-kanban/task-kanban.component';
@@ -17,8 +17,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 export const router: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'project/:id', component: ProjectComponent, canActivate: [AuthGuard], children: [
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'project/:id', component: ProjectComponent, canActivate: [AuthGuardService], children: [
     { path: 'task', component: TasksViewComponent, children: [
       { path: 'list', component: TaskListComponent },
       { path: 'kanban', component: TaskKanbanComponent },

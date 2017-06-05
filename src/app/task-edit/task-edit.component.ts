@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalComponent } from '../modal/modal.component';
+import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-task-edit',
@@ -16,6 +18,9 @@ export class TaskEditComponent implements OnInit, OnDestroy {
   public isUpdateTask: boolean;
   public title: string;
   form: FormGroup;
+  private projectSubscription: Subscription;
+  private taskSubscription: Subscription;
+  private formSubscription: Subscription;
 
   @ViewChild(ModalComponent)
   public readonly modal: ModalComponent;
@@ -33,7 +38,8 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(private firebaseService: FirebaseService,
+  constructor(private authService: AuthService,
+              private firebaseService: FirebaseService,
               public app: AppComponent,
               public fb: FormBuilder,
               private router: Router,
@@ -42,7 +48,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isUpdateTask = this.route.snapshot.url[0].path !== 'create';
     this.title = this.isUpdateTask ? 'Update Task' : 'Create Task';
-    this.firebaseService.project.subscribe(project => this.project = project);
+    this.projectSubscription = this.firebaseService.project.subscribe(project => this.project = project);
     this.form = this.fb.group({
       name: ['', Validators.required],
       taskStatus: this.statuses[0],
@@ -52,7 +58,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     // Get task and set appropriate properties if this is a task update.
     if (this.isUpdateTask) {
       this.firebaseService.task = this.firebaseService.getTask(this.route.parent.snapshot.params['id']);
-      this.firebaseService.task.subscribe(task => {
+      this.taskSubscription = this.firebaseService.task.subscribe(task => {
         this.task = task;
         this.form.setValue({
           name: task.title || '',
@@ -62,12 +68,17 @@ export class TaskEditComponent implements OnInit, OnDestroy {
         });
       });
     }
-    this.form.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.formSubscription = this.form.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set form validation messages now
   }
 
   ngOnDestroy() {
     this.firebaseService.task = undefined;
+    this.formSubscription.unsubscribe();
+    this.projectSubscription.unsubscribe();
+    if (this.taskSubscription) {
+      this.taskSubscription.unsubscribe();
+    }
   }
 
   /**
@@ -125,7 +136,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     const projectId = this.project.$key;
     this.firebaseService.saveTask({
       title: form.get('name').value,
-      owner: this.firebaseService.authToken.auth.email,
+      owner: this.authService.user.email,
       projectTitle: this.project.title,
       projectId: this.project.$key,
       taskStatus: form.get('taskStatus').value,

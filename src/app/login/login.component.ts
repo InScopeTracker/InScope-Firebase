@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,28 +9,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  error: any; // TODO grab errors
 
-  error: any;
-
-  constructor(public af: AngularFire, private router: Router) {
-    this.af.auth.subscribe(auth => {
-      if (auth) {
-        this.router.navigateByUrl('/home');
-      }
-    });
-  }
+  constructor(public afAuth: AngularFireAuth,
+              private router: Router,
+              public authService: AuthService) { }
 
   ngOnInit() {
   }
 
   loginGoogle() {
-    this.af.auth.login({
-      provider: AuthProviders.Google,
-      method: AuthMethods.Popup,
-    }).then((success) => {
-      this.router.navigate(['/home']);
-    }).catch((err) => {
-      this.error = err;
-    });
+    this.authService.loginGoogle();
   }
 }
