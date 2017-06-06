@@ -33,10 +33,16 @@
                 <ul>
                     <li *ngFor="let profile of userProfiles | async">{{profile.key}} {{profile.email}}</li>
                 </ul>
-                <label>Add New Member:
-                    <input type="text" required [(ngModel)]="newMember" (keyup.enter)="addMember()"/>
-                    <button class="btn btn-info" (click)="addMember()">Add Member</button>
-                </label>
+                <form (ngSubmit)="addMember()" #addMemberForm="ngForm">
+                    <div class="form-group">
+                        <label for="memberSelect">Add New Project Member</label>
+                        <select class="form-control" id="memberSelect" name="memberSelect" required [(ngModel)]="newMember">
+                            <option *ngFor="let profile of userProfiles | async" [value]="profile">{{profile.email}}</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" [disabled]="!addMemberForm.form.valid">Add Member</button>
+                </form>
             </div>
         </div>
         <div class="list-group">
