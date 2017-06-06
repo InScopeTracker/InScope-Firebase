@@ -19,6 +19,7 @@ export class ProjectSettingsComponent implements OnInit {
   public updatedLevel: number;
   public newMember: string;
   private projMembers$: Observable<any[]>;
+  private userProfiles: Observable<any[]>;
 
   constructor(private db: AngularFireDatabase,
               private firebaseService: FirebaseService,
@@ -29,6 +30,7 @@ export class ProjectSettingsComponent implements OnInit {
     this.currentProjectId = this.route.snapshot.parent.params['id'];
     this.currentProject = this.firebaseService.getProject(this.currentProjectId);
     this.projMembers$ = this.db.list('/projects/' + this.currentProjectId + '/members');
+    this.userProfiles = this.db.list('/userProfiles');
   }
 
   deleteProject() {

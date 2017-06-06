@@ -1,17 +1,34 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AuthService } from './auth.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
-export class FirebaseService {
+export class FirebaseService implements OnDestroy {
   projects: FirebaseListObservable<any[]>;
   tasks: FirebaseListObservable<any[]>;
   project: FirebaseObjectObservable<any>;
   task: FirebaseObjectObservable<any>;
+  userProfileSubscription: Subscription;
 
   constructor(private authService: AuthService,
-              private db: AngularFireDatabase) { }
+              private db: AngularFireDatabase) {
+    this.authService.authState.subscribe((auth) => {
+      // If the user is authenticated and doesn't have a user profile, create one.
+      if (auth) {
+        this.db.object(`/userProfiles/${auth.uid}`).subscribe((userProfile) => {
+          if (!userProfile.$value) {
+            this.db.object(`/userProfiles/${auth.uid}`).set({ email: auth.email });
+          }
+        });
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.userProfileSubscription.unsubscribe();
+  }
 
   getProjects() {
     this.projects = this.db.list('/projects', {

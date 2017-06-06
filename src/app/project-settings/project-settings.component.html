@@ -29,6 +29,10 @@
         <h2>Project Members</h2>
         <div class="row">
             <div class="col-xs-8">
+                Members:
+                <ul>
+                    <li *ngFor="let profile of userProfiles | async">{{profile.key}} {{profile.email}}</li>
+                </ul>
                 <label>Add New Member:
                     <input type="text" required [(ngModel)]="newMember" (keyup.enter)="addMember()"/>
                     <button class="btn btn-info" (click)="addMember()">Add Member</button>
