@@ -27,7 +27,7 @@ export class FirebaseService implements OnDestroy {
       }
     });
     if (!this.profileExists) {
-      this.db.object(`/userProfiles/${this.authService.user.uid}`).set({email: this.authService.user.email});
+      this.db.object(`/userProfiles/${this.authService.user.uid}`).update({email: this.authService.user.email});
     }
   }
 
