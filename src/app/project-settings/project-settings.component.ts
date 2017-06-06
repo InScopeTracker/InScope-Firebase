@@ -17,7 +17,7 @@ export class ProjectSettingsComponent implements OnInit {
   public updatedProjectInterval: number;
   public updatedCurrentPoints: number;
   public updatedLevel: number;
-  public newMember: string;
+  public newMember: any;
   private projMembers$: Observable<any[]>;
   private userProfiles: Observable<any[]>;
 
@@ -73,7 +73,9 @@ export class ProjectSettingsComponent implements OnInit {
 
   addMember() {
     console.log(this.newMember);
-    this.db.list('/projects/' + this.currentProjectId + '/members').push(this.newMember);
+    // const updates = {};
+    // updates[`/projects/${this.currentProjectId}/members/${this.newMember.uid}`] = `${this.newMember.email}`;
+    // this.db.database.ref().update(updates);
   }
 }
 

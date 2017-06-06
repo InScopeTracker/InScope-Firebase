@@ -52,8 +52,8 @@ export class FirebaseService implements OnDestroy {
   getProjects() {
     this.projects = this.db.list('/projects', {
       query: {
-        orderByChild: 'owner',
-        equalTo: this.authService.user.uid,
+        orderByChild: `members/${this.authService.user.uid}`,
+        equalTo: this.authService.user.email,
       }
     }) as FirebaseListObservable<Project[]>;
     return this.projects;

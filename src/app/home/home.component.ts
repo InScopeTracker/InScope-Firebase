@@ -27,10 +27,12 @@ export class HomeComponent implements OnInit {
    * database.
    */
   createProject() {
+    const userId = this.authService.user.uid;
+    const userEmail = this.authService.user.email;
     const project = {
       title: this.newProject,
-      owner: this.authService.user.uid,
-      users: this.authService.user.uid,
+      owner: userId,
+      members: {},
       pointInterval: 20,
       currentPoints: 0,
       currentLevel: 1,
@@ -42,11 +44,15 @@ export class HomeComponent implements OnInit {
     const projKey = this.projects.push(project).key;
 
     // Write the new data simultaneously in the project list and the userProfiles list.
-    const updates = {};
+    let updates = {};
     updates['/projects/' + projKey] = project;
     updates['/userProfiles/' + this.authService.user.uid + '/' + newPostKey] = {projectId: projKey};
 
-    return this.db.database.ref().update(updates);
+    this.db.database.ref().update(updates);
+
+    updates = {};
+    updates['/projects/' + projKey + '/members' + '/' + userId] = userEmail;
+    this.db.database.ref().update(updates);
   }
 
   navToTasks(project) {

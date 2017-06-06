@@ -26,31 +26,30 @@
             <div class="col-xs-2"><button class="btn btn-info" (click)="updateCurrentLevel()">Update</button></div>
         </div>
 
-        <h2>Project Members</h2>
         <div class="row">
-            <div class="col-xs-8">
-                Members:
-                <ul>
-                    <li *ngFor="let profile of userProfiles | async">{{profile.key}} {{profile.email}}</li>
-                </ul>
-                <form (ngSubmit)="addMember()" #addMemberForm="ngForm">
-                    <div class="form-group">
-                        <label for="memberSelect">Add New Project Member</label>
-                        <select class="form-control" id="memberSelect" name="memberSelect" required [(ngModel)]="newMember">
-                            <option *ngFor="let profile of userProfiles | async" [value]="profile">{{profile.email}}</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-success" [disabled]="!addMemberForm.form.valid">Add Member</button>
-                </form>
-            </div>
-        </div>
         <div class="list-group">
+            <h2>Current Project Members</h2>
             <div class="list-group-item col-md-3" *ngFor="let member of projMembers$ | async">
                 <div class="btn-group" role="group" aria-label="...">
                     <button class="btn btn-default">{{member.$value}}</button>
                     <button class="btn btn-danger" (click)="deleteMembers(member)">X</button>
                 </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8">
+               <form (ngSubmit)="addMember()" #addMemberForm="ngForm">
+                    <div class="form-group">
+                        <label for="memberSelect">Add New Project Member</label>
+                        <select class="form-control" id="memberSelect" name="memberSelect" required [(ngModel)]="newMember">
+                            <option *ngFor="let profile of userProfiles | async" [value]=profile>{{profile.email}}</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" [disabled]="!addMemberForm.form.valid">Add Member</button>
+                </form>
             </div>
         </div>
     </div>
