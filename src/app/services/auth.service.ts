@@ -30,7 +30,9 @@ export class AuthService implements OnDestroy {
   }
 
   loginGoogle() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(() => {
+      this.router.navigate(['/home']);
+    });
   }
 
   logout() {
