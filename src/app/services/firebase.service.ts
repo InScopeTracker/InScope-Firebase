@@ -7,10 +7,12 @@ import { Subscription } from 'rxjs/Subscription';
 @Injectable()
 export class FirebaseService implements OnDestroy {
   projects: FirebaseListObservable<any[]>;
+  users: FirebaseListObservable<any[]>;
   tasks: FirebaseListObservable<any[]>;
   project: FirebaseObjectObservable<any>;
   task: FirebaseObjectObservable<any>;
   userProfileSubscription: Subscription;
+  profileExists: boolean;
 
   constructor(private authService: AuthService,
               private db: AngularFireDatabase) {
@@ -19,15 +21,32 @@ export class FirebaseService implements OnDestroy {
       if (auth) {
         this.db.object(`/userProfiles/${auth.uid}`).subscribe((userProfile) => {
           if (!userProfile.$value) {
-            this.db.object(`/userProfiles/${auth.uid}`).set({ email: auth.email });
+            this.profileExists = false;
           }
         });
       }
     });
+    if (!this.profileExists) {
+      this.db.object(`/userProfiles/${this.authService.user.uid}`).set({email: this.authService.user.email});
+    }
   }
 
   ngOnDestroy() {
     this.userProfileSubscription.unsubscribe();
+  }
+
+  getUsers() {
+    this.users = this.db.list('/userProfiles', {
+      query: {
+        orderByChild: '$key',
+        equalTo: this.authService.user.uid,
+      }
+    }) as FirebaseListObservable<User[]>;
+    return this.users;
+  }
+
+  getUser(id) {
+    return this.db.object('/userProfiles/' + id) as FirebaseObjectObservable<any>;
   }
 
   getProjects() {
@@ -125,5 +144,12 @@ interface Task {
   owner?: string;
   projectTitle?: string;
   projectId: string;
+  timestamp: Date;
+}
+
+interface User {
+  $key?: string;
+  email?: string;
+  projectList?: string;
   timestamp: Date;
 }
