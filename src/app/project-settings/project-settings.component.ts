@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FirebaseObjectObservable } from 'angularfire2/database';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-project-settings',
@@ -20,6 +21,9 @@ export class ProjectSettingsComponent implements OnInit {
   public newMember: any;
   private projMembers$: Observable<any[]>;
   private userProfiles: Observable<any[]>;
+
+  @ViewChild(ModalComponent)
+  public readonly modal: ModalComponent;
 
   constructor(private db: AngularFireDatabase,
               private firebaseService: FirebaseService,

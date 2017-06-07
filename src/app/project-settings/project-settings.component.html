@@ -56,8 +56,21 @@
 
     <div class="row">
         <div class="col-xs-4">
-            <button class="btn btn-danger" (click)="deleteProject()">DELETE PROJECT</button>
+            <button class="btn btn-danger" (click)="modal.show()">DELETE PROJECT</button>
         </div>
     </div>
 
 </div>
+
+<app-modal>
+    <div class="app-modal-header">
+        Delete Project
+    </div>
+    <div class="app-modal-body">
+        Are you sure you'd like to delete this project?
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default" (click)="modal.hide()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="deleteProject()">Yes</button>
+    </div>
+</app-modal>
