@@ -102,8 +102,12 @@ export class FirebaseService implements OnDestroy {
   gainProjectExperience(taskKey: string, projectKey: string) {
     const currentProj = this.getProject(projectKey);
     let projPoints = 0;
+    let projLevel = 0;
+    let projInterval = 0;
     this.projectSubscription = currentProj.subscribe(proj => {
       projPoints = Number(proj.currentPoints);
+      projLevel = Number(proj.currentLevel);
+      projInterval = Number(proj.pointInterval);
     });
 
     const currentTask = this.db.object('/tasks/' + taskKey);
@@ -113,9 +117,15 @@ export class FirebaseService implements OnDestroy {
     });
 
     projPoints += taskPoints;
-    this.updateCurrentPoints(projectKey, projPoints);
+    if (projPoints >= projInterval) {
+      projLevel += Math.floor(Number(projPoints / projInterval));
+      projPoints %= projInterval;
+    }
+
     this.projectSubscription.unsubscribe();
     this.taskSubscription.unsubscribe();
+    this.updateCurrentPoints(projectKey, projPoints);
+    this.updateCurrentLevel(projectKey, projLevel);
   }
 
   deleteTask(taskKey: string) {
