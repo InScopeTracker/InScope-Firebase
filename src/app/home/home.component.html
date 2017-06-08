@@ -7,13 +7,13 @@
         <h2>Projects</h2>
         <div class="list-group col-md-12">
           <h3>Owned By Me</h3>
-          <div class="list-group-item col-md-3" *ngFor="let project of projects | filter: 'owner' : (user | async)?.$key : false">
+          <div class="list-group-item col-md-3" *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : false">
             <div (click)="navToTasks(project)">{{project.title}}</div>
           </div>
         </div>
         <div class="list-group">
           <h3>Owned By Others</h3>
-          <div class="list-group-item col-md-3" *ngFor="let project of projects | filter: 'owner' : (user | async)?.$key : true">
+          <div class="list-group-item col-md-3" *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : true">
             <div (click)="navToTasks(project)">{{project.title}}</div>
           </div>
         </div>

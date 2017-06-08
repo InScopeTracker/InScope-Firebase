@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public projects: any;
   public user: FirebaseObjectObservable<any>;
   public newProject: string;
@@ -64,13 +64,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectSubscription = this.firebaseService.getProjects().subscribe(projects => {
-      this.projects = projects;
-    });
+    this.projects = this.firebaseService.getProjects();
     this.user = this.firebaseService.getUser(this.authService.user.uid);
   }
-
+  
   ngOnDestroy() {
-    this.projectSubscription.unsubscribe();
   }
 }
