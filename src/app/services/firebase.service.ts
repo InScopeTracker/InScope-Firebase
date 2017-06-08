@@ -25,12 +25,12 @@ export class FirebaseService implements OnDestroy {
           if (!userProfile.$value) {
             this.profileExists = false;
           }
+          if (!this.profileExists) {
+            this.db.object(`/userProfiles/${this.authService.user.uid}`).update({email: this.authService.user.email});
+          }
         });
       }
     });
-    if (!this.profileExists) {
-      this.db.object(`/userProfiles/${this.authService.user.uid}`).update({email: this.authService.user.email});
-    }
   }
 
   ngOnDestroy() {
