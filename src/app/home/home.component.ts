@@ -30,6 +30,9 @@ export class HomeComponent implements OnInit, OnDestroy {
    * database.
    */
   createProject() {
+    if (this.newProject == null || this.newProject === undefined) {
+      return;
+    }
     const userId = this.authService.user.uid;
     const userEmail = this.authService.user.email;
     const project = {
