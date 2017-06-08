@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
@@ -6,6 +6,7 @@ import { FirebaseService } from '../services/firebase.service';
 import { AuthService } from '../services/auth.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FilterPipe } from '../services/filter.pipe';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ export class HomeComponent implements OnInit {
   public projects: any;
   public user: FirebaseObjectObservable<any>;
   public newProject: string;
+  private projectSubscription: Subscription;
 
   constructor(private authService: AuthService,
               private firebaseService: FirebaseService,
@@ -62,9 +64,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.firebaseService.getProjects().subscribe(projects => {
+    this.projectSubscription = this.firebaseService.getProjects().subscribe(projects => {
       this.projects = projects;
     });
     this.user = this.firebaseService.getUser(this.authService.user.uid);
+  }
+
+  ngOnDestroy() {
+    this.projectSubscription.unsubscribe();
   }
 }

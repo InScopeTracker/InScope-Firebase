@@ -21,7 +21,7 @@ export class FirebaseService implements OnDestroy {
     this.authService.authState.subscribe((auth) => {
       // If the user is authenticated and doesn't have a user profile, create one.
       if (auth) {
-        this.db.object(`/userProfiles/${auth.uid}`).subscribe((userProfile) => {
+        this.db.object(`/userProfiles/${auth.uid}`).take(1).subscribe((userProfile) => {
           if (!userProfile.$value) {
             this.profileExists = false;
           }
