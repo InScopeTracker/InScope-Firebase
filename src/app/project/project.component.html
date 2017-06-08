@@ -10,6 +10,14 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-xs-5">
+      <p>Current Level: {{(currentProject | async)?.currentLevel}}</p>
+    </div>
+    <div class="col-xs-5">
+      <p>Experience this level: {{(currentProject | async)?.currentPoints}} / {{(currentProject | async)?.pointInterval}}</p>
+    </div>
+  </div>
+  <div class="row">
     <router-outlet></router-outlet>
   </div>
 </div>
