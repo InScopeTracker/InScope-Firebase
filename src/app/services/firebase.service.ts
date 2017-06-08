@@ -12,6 +12,8 @@ export class FirebaseService implements OnDestroy {
   project: FirebaseObjectObservable<any>;
   task: FirebaseObjectObservable<any>;
   userProfileSubscription: Subscription;
+  taskSubscription: Subscription;
+  projectSubscription: Subscription;
   profileExists: boolean;
 
   constructor(private authService: AuthService,
@@ -92,8 +94,27 @@ export class FirebaseService implements OnDestroy {
     return this.task.update(taskProperties);
   }
 
-  completeTask(taskKey: string) {
+  completeTask(taskKey: string, projectKey: string) {
+    const currentProj = this.getProject(projectKey);
+    let projPoints = 0;
+    this.projectSubscription = currentProj.subscribe(proj => {
+      projPoints = Number(proj.currentPoints);
+    });
+
+    const currentTask = this.db.object('/tasks/' + taskKey);
+    let taskPoints = 0;
+    this.taskSubscription = currentTask.subscribe(task => {
+      taskPoints = Number(task.taskPointValue);
+    });
+
+    projPoints += taskPoints;
+    this.updateCurrentPoints(projectKey, projPoints);
+    this.projectSubscription.unsubscribe();
+    this.taskSubscription.unsubscribe();
+
+
     this.db.object('/tasks/' + taskKey).remove();
+
   }
 
   deleteTask(taskKey: string) {

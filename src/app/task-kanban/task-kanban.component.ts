@@ -24,7 +24,7 @@ export class TaskKanbanComponent implements OnInit {
   }
 
   completeTask(task: any) {
-    this.firebaseService.completeTask(task.$key);
+    this.firebaseService.completeTask(task.$key, this.currentProjectId);
   }
 
   filterTaskStatus(task, status){

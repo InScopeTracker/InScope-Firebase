@@ -21,6 +21,6 @@ export class TaskListComponent implements OnInit {
   }
 
   completeTask(task: any) {
-    this.firebaseService.completeTask(task.$key);
+    this.firebaseService.completeTask(task.$key, this.currentProjectId);
   }
 }
