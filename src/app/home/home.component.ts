@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
     const project = {
       title: this.newProject,
       owner: userId,
+      ownerEmail: userEmail,
       members: {},
       pointInterval: 20,
       currentPoints: 0,
@@ -40,18 +41,17 @@ export class HomeComponent implements OnInit {
     };
 
     // Get keys for new project and projectId.
-    const newPostKey = this.db.database.ref('/userProfiles').child(this.authService.user.uid).push().key;
     const projKey = this.projects.push(project).key;
 
     // Write the new data simultaneously in the project list and the userProfiles list.
     let updates = {};
     updates['/projects/' + projKey] = project;
-    updates['/userProfiles/' + this.authService.user.uid + '/' + newPostKey] = {projectId: projKey};
+    updates['/userProfiles/' + this.authService.user.uid + '/projectsOwned/' + projKey] = true;
 
     this.db.database.ref().update(updates);
 
     updates = {};
-    updates['/projects/' + projKey + '/members' + '/' + userId] = userEmail;
+    updates['/projects/' + projKey + '/members/' + userId] = true;
     this.db.database.ref().update(updates);
   }
 
