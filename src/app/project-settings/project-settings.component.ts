@@ -1,17 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FirebaseObjectObservable } from 'angularfire2/database';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ModalComponent } from '../modal/modal.component';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-project-settings',
   templateUrl: './project-settings.component.html',
   styleUrls: ['./project-settings.component.css']
 })
-export class ProjectSettingsComponent implements OnInit {
+export class ProjectSettingsComponent implements OnInit, OnDestroy {
 
   public currentProjectId: any;
   public currentProject: FirebaseObjectObservable<any>;
@@ -19,8 +20,9 @@ export class ProjectSettingsComponent implements OnInit {
   public updatedCurrentPoints: number;
   public updatedLevel: number;
   public newMember: any;
-  private projMembers$: Observable<any[]>;
+  public members: any[];
   private userProfiles: Observable<any[]>;
+  private projectSubscription: Subscription;
 
   @ViewChild(ModalComponent)
   public readonly modal: ModalComponent;
@@ -31,10 +33,24 @@ export class ProjectSettingsComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.currentProjectId = this.route.snapshot.parent.params['id'];
-    this.currentProject = this.firebaseService.getProject(this.currentProjectId);
-    this.projMembers$ = this.db.list('/projects/' + this.currentProjectId + '/members');
+    this.members = [];
+    const members = this.members;
+    this.projectSubscription = this.firebaseService.project.subscribe(project => {
+      this.currentProject = project;
+      this.currentProjectId = project.$key;
+      if (project.members) {
+        Object.keys(project.members).forEach(memberId => {
+          this.firebaseService.getUser(memberId).subscribe(member => {
+            members.push(member);
+          });
+        });
+      }
+    });
     this.userProfiles = this.db.list('/userProfiles');
+  }
+
+  ngOnDestroy() {
+    this.projectSubscription.unsubscribe();
   }
 
   deleteProject() {
