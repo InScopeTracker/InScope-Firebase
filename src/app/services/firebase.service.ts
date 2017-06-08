@@ -9,7 +9,7 @@ export class FirebaseService implements OnDestroy {
   projects: FirebaseListObservable<any[]>;
   users: FirebaseListObservable<any[]>;
   tasks: FirebaseListObservable<any[]>;
-  project: FirebaseObjectObservable<any>;
+  public project: FirebaseObjectObservable<any>;
   task: FirebaseObjectObservable<any>;
   userProfileSubscription: Subscription;
   taskSubscription: Subscription;

@@ -23,6 +23,7 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
   public members: any[];
   private userProfiles: Observable<any[]>;
   private projectSubscription: Subscription;
+  private userSubscription: Subscription;
 
   @ViewChild(ModalComponent)
   public readonly modal: ModalComponent;
@@ -40,8 +41,10 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
       this.currentProjectId = project.$key;
       if (project.members) {
         Object.keys(project.members).forEach(memberId => {
-          this.firebaseService.getUser(memberId).subscribe(member => {
-            members.push(member);
+          this.userSubscription = this.firebaseService.getUser(memberId).subscribe(member => {
+            if (members.indexOf(member) < 0) {
+              members.push(member);
+            }
           });
         });
       }
@@ -51,6 +54,7 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.projectSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
   deleteProject() {
