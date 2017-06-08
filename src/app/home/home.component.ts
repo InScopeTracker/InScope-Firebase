@@ -5,6 +5,7 @@ import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
 import { AuthService } from '../services/auth.service';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { FilterPipe } from '../services/filter.pipe';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public projects: FirebaseListObservable<any>;
+  public projects: any;
   public user: FirebaseObjectObservable<any>;
   public newProject: string;
 
@@ -61,8 +62,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projects = this.firebaseService.getProjects();
+    this.firebaseService.getProjects().subscribe(projects => {
+      this.projects = projects;
+    });
     this.user = this.firebaseService.getUser(this.authService.user.uid);
   }
-
 }
