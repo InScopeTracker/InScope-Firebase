@@ -92,10 +92,7 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
   }
 
   addMember() {
-    console.log(this.newMember);
-    // const updates = {};
-    // updates[`/projects/${this.currentProjectId}/members/${this.newMember.uid}`] = `${this.newMember.email}`;
-    // this.db.database.ref().update(updates);
+    this.firebaseService.addProjectMember(this.currentProjectId, this.newMember);
   }
 }
 

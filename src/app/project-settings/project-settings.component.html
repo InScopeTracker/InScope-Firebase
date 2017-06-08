@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="memberSelect">Add New Project Member</label>
                         <select class="form-control" id="memberSelect" name="memberSelect" required [(ngModel)]="newMember">
-                            <option *ngFor="let profile of userProfiles | async" [value]=profile>{{profile.email}}</option>
+                            <option *ngFor="let profile of userProfiles | async" [value]="profile.$key">{{profile.email}}</option>
                         </select>
                     </div>
 

@@ -64,6 +64,11 @@ export class FirebaseService implements OnDestroy {
     return this.project;
   }
 
+  addProjectMember(projectId, memberId) {
+    this.db.object(`/projects/${projectId}/members`).$ref.child(memberId).set(true);
+    this.db.object(`/userProfiles/${memberId}/projects`).$ref.child(projectId).set(true);
+  }
+
   getTasks(projectId) {
     this.tasks = this.db.list('/tasks', {
       query: {
