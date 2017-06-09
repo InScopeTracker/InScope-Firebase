@@ -146,6 +146,7 @@ export class FirebaseService implements OnDestroy {
     });
 
     this.db.object('/projects/' + projectKey).remove();
+    this.db.object('/userProfiles/' + this.authService.user.uid + '/projectsOwned/' + projectKey).remove();
   }
 
   updateProjectInterval(projectKey: string, intervalValue: number) {
