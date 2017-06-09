@@ -70,7 +70,6 @@ export class FirebaseService implements OnDestroy {
     this.db.object(`/projects/${projectId}/members`).$ref.child(memberId).set(true);
     this.db.object(`/userProfiles/${memberId}/projects`).$ref.child(projectId + '/permissions').set(true);
     this.db.object(`/userProfiles/${memberId}/projects`).$ref.child(projectId).update({projectPoints: 0});
-
   }
 
   getTasks(projectId) {
@@ -97,16 +96,14 @@ export class FirebaseService implements OnDestroy {
   }
 
   completeTask(taskKey: string, projectKey: string) {
+    let points = null;
+    const taskSub = this.db.object('/tasks/' + taskKey).subscribe(task => {
+      points = Number(task.taskPointValue);
+    });
     this.gainProjectExperience(taskKey, projectKey);
+    this.updateUserProjectPoints(projectKey, points);
     this.db.object('/tasks/' + taskKey).remove();
-  }
-
-  gainUserExperience(taskKey: string, projectKey: string, userId: string) {
-    const userProjects = this.db.object('/userProfiles/' + this.authService.user.uid + '/projects');
-    const userProjectOwn = this.db.object('/userProfiles/' + this.authService.user.uid + '/projectsOwned');
-    let currentUserPoints = 0;
-    let taskPoints = 0;
-    const reff = userProjects.$ref.child(projectKey).orderByChild('projectPoints');
+    taskSub.unsubscribe();
   }
 
   gainProjectExperience(taskKey: string, projectKey: string) {
@@ -157,6 +154,28 @@ export class FirebaseService implements OnDestroy {
 
     this.db.object('/projects/' + projectKey).remove();
     this.db.object('/userProfiles/' + this.authService.user.uid + '/projectsOwned/' + projectKey).remove();
+  }
+
+  updateUserProjectPoints(projectKey: string, pointValue: number) {
+    let userProject = null;
+    const proj = this.db.object('/projects/' + projectKey);
+    const projectSub = proj.subscribe(project => {
+      if (project.owner === this.authService.user.uid) {
+        userProject = this.db.object('/userProfiles/' + this.authService.user.uid + '/projectsOwned/' + projectKey)
+      } else {
+        userProject = this.db.object('/userProfiles/' + this.authService.user.uid + '/projects/' + projectKey)
+      }
+    });
+
+    let currentPoints = 0;
+    const userSub = userProject.subscribe(user => {
+      currentPoints = Number(user.projectPoints);
+    });
+
+    currentPoints += Number(pointValue);
+    userProject.update({projectPoints: currentPoints});
+    projectSub.unsubscribe();
+    userSub.unsubscribe();
   }
 
   updateProjectInterval(projectKey: string, intervalValue: number) {
