@@ -25,6 +25,8 @@ import { FirebaseService } from './services/firebase.service';
 import { FilterPipe } from './services/filter.pipe';
 import { ModalComponent } from './modal/modal.component';
 
+import { DragulaModule, DragulaService } from 'ng2-dragula';
+
 export const firebaseConfig = {
     apiKey: 'AIzaSyCXEdBDFU1BSbcteFDK7ueX_LzksCyC5tA',
     authDomain: 'inscope-tracker-1f500.firebaseapp.com',
@@ -59,12 +61,14 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    routes
+    routes,
+    DragulaModule
   ],
   providers: [
     AuthService,
     AuthGuardService,
-    FirebaseService
+    FirebaseService,
+    DragulaService
   ],
   bootstrap: [AppComponent]
 })
