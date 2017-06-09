@@ -52,12 +52,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Write the new data simultaneously in the project list and the userProfiles list.
     let updates = {};
     updates['/projects/' + projKey] = project;
-    updates['/userProfiles/' + this.authService.user.uid + '/projectsOwned/' + projKey] = true;
-
+    updates['/userProfiles/' + this.authService.user.uid +
+            '/projectsOwned/' + projKey + '/permissions'] = true;
     this.db.database.ref().update(updates);
 
     updates = {};
     updates['/projects/' + projKey + '/members/' + userId] = true;
+    this.db.database.ref().update(updates);
+
+    updates = {};
+    updates['/userProfiles/' + this.authService.user.uid +
+            '/projectsOwned/' + projKey + '/projectPoints'] = 0;
     this.db.database.ref().update(updates);
   }
 
@@ -70,7 +75,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.projects = this.firebaseService.getProjects();
     this.user = this.firebaseService.getUser(this.authService.user.uid);
   }
-  
+
   ngOnDestroy() {
   }
 }

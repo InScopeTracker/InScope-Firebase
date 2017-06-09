@@ -68,7 +68,9 @@ export class FirebaseService implements OnDestroy {
 
   addProjectMember(projectId, memberId) {
     this.db.object(`/projects/${projectId}/members`).$ref.child(memberId).set(true);
-    this.db.object(`/userProfiles/${memberId}/projects`).$ref.child(projectId).set(true);
+    this.db.object(`/userProfiles/${memberId}/projects`).$ref.child(projectId + '/permissions').set(true);
+    this.db.object(`/userProfiles/${memberId}/projects`).$ref.child(projectId).update({projectPoints: 0});
+
   }
 
   getTasks(projectId) {
@@ -97,6 +99,14 @@ export class FirebaseService implements OnDestroy {
   completeTask(taskKey: string, projectKey: string) {
     this.gainProjectExperience(taskKey, projectKey);
     this.db.object('/tasks/' + taskKey).remove();
+  }
+
+  gainUserExperience(taskKey: string, projectKey: string, userId: string) {
+    const userProjects = this.db.object('/userProfiles/' + this.authService.user.uid + '/projects');
+    const userProjectOwn = this.db.object('/userProfiles/' + this.authService.user.uid + '/projectsOwned');
+    let currentUserPoints = 0;
+    let taskPoints = 0;
+    const reff = userProjects.$ref.child(projectKey).orderByChild('projectPoints');
   }
 
   gainProjectExperience(taskKey: string, projectKey: string) {

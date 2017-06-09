@@ -19,7 +19,7 @@ export class ProjectComponent implements OnInit {
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
-              private route: ActivatedRoute, 
+              private route: ActivatedRoute,
               private authService: AuthService ) { }
 
   ngOnInit() {
