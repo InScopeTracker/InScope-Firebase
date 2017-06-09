@@ -17,31 +17,21 @@
     <div class="col-xs-3">
       <p>Experience this level: {{(currentProject | async)?.currentPoints}} / {{(currentProject | async)?.pointInterval}}</p>
     </div>
-    <div class="col-xs-6">
-      <table class="table table-striped table-condensed">
-        <thead>
+    <div class="col-xs-6 table-responsive">
+      <table class="table table-striped">
           <tr>
             <th class="text-center" colspan="2">Project Leaderboard</th>
           </tr>
-        </thead>
-        <thead>
           <tr>
             <th>User</th>
             <th class="text-center">Score</th>
           </tr>
-        </thead>
-        <tr>
-          <td>test@test.com</td>
-          <td class="text-center">21</td>
-        </tr>
-        <tr>
-          <td>this@that.net</td>
-          <td class="text-center">17</td>
-        </tr>
-        <tr>
-          <td>moose@squirrel.org</td>
-          <td class="text-center">13</td>
-        </tr>
+        <div *ngFor="let leader of leaderboard">
+          <tr>
+            <td class="text-left" id="leaderUser">{{(leader.user | async)?.email}}</td>
+            <td class="text-center" id="leaderPoint">{{leader.points}}</td>
+          </tr>
+        </div>
       </table>
     </div>
   </div>

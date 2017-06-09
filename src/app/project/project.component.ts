@@ -16,6 +16,7 @@ export class ProjectComponent implements OnInit {
   public tasks: FirebaseListObservable<any>;
   public currentProjectId: any;
   public currentProject: FirebaseObjectObservable<any>;
+  public leaderboard = [];
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
@@ -30,5 +31,12 @@ export class ProjectComponent implements OnInit {
     this.firebaseService.getProjectMembers();
     this.firebaseService.project = this.currentProject;
     this.firebaseService.tasks = this.tasks;
+    this.firebaseService.getLeaderboard(this.currentProjectId).subscribe(leaders => {
+      leaders.forEach(userLeader => {
+        const data = {user: this.firebaseService.getUser(userLeader.$key),
+                    points: userLeader.$value};
+        this.leaderboard.unshift(data);
+      });
+    });
   }
 }

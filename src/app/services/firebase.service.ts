@@ -101,6 +101,15 @@ export class FirebaseService implements OnDestroy {
     return this.tasks;
   }
 
+  getLeaderboard(projectId) {
+    return this.db.list('/projects/' + projectId + '/leaderboard/', {
+      query: {
+        orderByValue: true,
+        limitToFirst: 3
+      }
+    }) as FirebaseListObservable<any[]>;
+  }
+
   getTask(id) {
     this.task = this.db.object('/tasks/' + id) as FirebaseObjectObservable<Task>;
     return this.task;
@@ -192,6 +201,9 @@ export class FirebaseService implements OnDestroy {
     });
 
     currentPoints += Number(pointValue);
+    const leaderUpdate = {};
+    leaderUpdate['/projects/' + projectKey + '/leaderboard/' + this.authService.user.uid] = currentPoints;
+    this.db.database.ref().update(leaderUpdate);
     userProject.update({projectPoints: currentPoints});
     projectSub.unsubscribe();
     userSub.unsubscribe();
