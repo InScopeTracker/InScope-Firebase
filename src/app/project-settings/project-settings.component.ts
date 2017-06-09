@@ -93,6 +93,7 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
 
   deleteMembers(member) {
     this.db.list('/projects/' + this.currentProjectId + '/members').remove(member.$key);
+    this.db.list('/userProfiles/' + member.$key + '/projects').remove(this.currentProjectId);
   }
 
   addMember() {
