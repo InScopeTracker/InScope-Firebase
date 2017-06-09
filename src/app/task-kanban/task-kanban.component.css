@@ -1,3 +1,11 @@
 .kanban-board {
     text-align: center;
 }
+
+.kanban {
+    display: flex;
+}
+
+.kanban-column {
+    flex-grow: 1;
+}
