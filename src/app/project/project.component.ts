@@ -27,8 +27,8 @@ export class ProjectComponent implements OnInit {
     this.currentProjectId = this.route.snapshot.params['id'];
     this.currentProject = this.firebaseService.getProject(this.currentProjectId);
     this.tasks = this.firebaseService.getTasks(this.currentProjectId);
+    this.firebaseService.getProjectMembers();
     this.firebaseService.project = this.currentProject;
     this.firebaseService.tasks = this.tasks;
   }
-
 }

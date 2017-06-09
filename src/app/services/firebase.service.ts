@@ -11,13 +11,15 @@ export class FirebaseService implements OnDestroy {
   tasks: FirebaseListObservable<any[]>;
   public project: FirebaseObjectObservable<any>;
   task: FirebaseObjectObservable<any>;
-  userProfileSubscription: Subscription;
+  projectMembers: FirebaseObjectObservable<any>[];
+  userProfileSubscriptions: Subscription[];
   taskSubscription: Subscription;
   projectSubscription: Subscription;
   profileExists: boolean;
 
   constructor(private authService: AuthService,
               private db: AngularFireDatabase) {
+    this.userProfileSubscriptions = [];
     this.authService.authState.subscribe((auth) => {
       // If the user is authenticated and doesn't have a user profile, create one.
       if (auth) {
@@ -34,7 +36,7 @@ export class FirebaseService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userProfileSubscription.unsubscribe();
+    this.userProfileSubscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   getUsers() {
@@ -64,6 +66,23 @@ export class FirebaseService implements OnDestroy {
   getProject(id) {
     this.project = this.db.object('/projects/' + id) as FirebaseObjectObservable<Project>;
     return this.project;
+  }
+
+  getProjectMembers() {
+    const members = [];
+    this.project.subscribe(project => {
+      if (project.members) {
+        Object.keys(project.members).forEach(memberId => {
+          this.userProfileSubscriptions.push(this.getUser(memberId).subscribe(member => {
+            if (members.indexOf(member) < 0) {
+              members.push(member);
+            }
+          }));
+        });
+      }
+    });
+    this.projectMembers = members;
+    return this.projectMembers;
   }
 
   addProjectMember(projectId, memberId) {

@@ -5,7 +5,6 @@ import { FirebaseService } from '../services/firebase.service';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ModalComponent } from '../modal/modal.component';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-project-settings',
@@ -22,8 +21,6 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
   public newMember: any;
   public members: any[];
   private userProfiles: Observable<any[]>;
-  private projectSubscription: Subscription;
-  private userSubscription: Subscription;
 
   @ViewChild(ModalComponent)
   public readonly modal: ModalComponent;
@@ -34,27 +31,13 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.members = [];
-    const members = this.members;
-    this.projectSubscription = this.firebaseService.project.subscribe(project => {
-      this.currentProject = project;
-      this.currentProjectId = project.$key;
-      if (project.members) {
-        Object.keys(project.members).forEach(memberId => {
-          this.userSubscription = this.firebaseService.getUser(memberId).subscribe(member => {
-            if (members.indexOf(member) < 0) {
-              members.push(member);
-            }
-          });
-        });
-      }
-    });
+    this.currentProjectId = this.route.parent.snapshot.params['id'];
+    this.currentProject = this.firebaseService.project;
+    this.members = this.firebaseService.getProjectMembers();
     this.userProfiles = this.db.list('/userProfiles');
   }
 
   ngOnDestroy() {
-    this.projectSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
   }
 
   deleteProject() {
