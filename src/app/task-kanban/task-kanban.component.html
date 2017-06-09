@@ -21,8 +21,17 @@
 
 Below is a WIP implementation of drag-and-drop tasks.
 <div class='kanban'>
-  <div *ngFor="let status of statuses" [dragula]='"bag-one"' [dragulaModel]='status' class='panel panel-default kanban-column'>
+  <div *ngFor="let status of statuses" class='kanban-board kanban-column'>
     <h2>{{status}}</h2>
-    <div *ngFor="let task of tasks | filter: 'taskStatus' : status : false" class='panel panel-body'>{{task.title}}</div>
+    <div *ngFor="let task of tasks | filter: 'taskStatus' : status : false" [dragula]='status' [dragulaModel]='task'>
+      <div class="panel panel-body"  style='background-color: lightgreen'>
+        <a class="col-lg-12" routerLink="../{{task.$key}}">{{task.title}}</a>
+        <a class="col-lg-12" href="#">{{task.owner}}</a>
+        <button class="btn btn-lg btn-link pull-right" (click)="completeTask(task)">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <span class="badge">{{task.taskPointValue}}</span>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
