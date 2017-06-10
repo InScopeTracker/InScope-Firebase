@@ -16,3 +16,7 @@
 .kanban-column {
   margin: 10px;
 }
+
+.kanban-column .task {
+  cursor: move;
+}

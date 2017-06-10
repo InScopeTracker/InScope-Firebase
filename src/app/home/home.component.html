@@ -1,23 +1,41 @@
 <div class="container">
   <div class="row">
     <input type="text" [(ngModel)]="newProject" (keyup.enter)="createProject()">
-    <button class="btn btn-default" (click)="createProject()">Create New Project</button>
+    <button class="btn btn-default" role="button" (click)="createProject()">Create New Project</button>
     <div class="row">
       <div class="jumbotron container-fluid">
         <h2>Projects</h2>
         <div class="list-group col-md-12">
           <h3>Owned By Me</h3>
-          <div class="list-group-item col-md-3" *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : false">
-            <div (click)="navToTasks(project)">{{project.title}}</div>
+          <div class="list-group-item col-md-3"
+               *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : false"
+               (click)="navToTasks(project)" role="button">
+            {{project.title}}
           </div>
         </div>
         <div class="list-group">
           <h3>Owned By Others</h3>
-          <div class="list-group-item col-md-3" *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : true">
-            <div (click)="navToTasks(project)">{{project.title}}</div>
+          <div class="list-group-item col-md-3"
+               *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : true"
+               (click)="navToTasks(project)" role="button">
+            {{project.title}}
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<app-modal>
+  <div class="app-modal-header">
+    Project {{createdProject}} created!
+  </div>
+  <div class="app-modal-body">
+    Your new project was created. Update your project <a (click)="navToSettings(createdProject)">settings</a> to assign
+    task iterations and members.
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="modal.hide()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="navToSettings(createdProject)">View Settings</button>
+  </div>
+</app-modal>
