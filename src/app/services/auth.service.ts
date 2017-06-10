@@ -14,7 +14,7 @@ export class AuthService implements OnDestroy {
   constructor(public afAuth: AngularFireAuth, private router: Router) {
     this.user = this.afAuth.auth.onAuthStateChanged(user => this.user = user);
     this.authState = this.afAuth.authState;
-    this.afAuth.authState.subscribe((auth) => {
+    this.authSubscription = this.afAuth.authState.subscribe((auth) => {
       if (auth === null) {
         this.router.navigate(['/login']);
       }
