@@ -12,14 +12,18 @@
 
   <div class="row">
     <div class="col-xs-3">
-      <p>Current Level: {{(currentProject | async)?.currentLevel}}</p>
+      <p>Project Level: {{(currentProject | async)?.currentLevel}}</p>
     </div>
     <div class="col-xs-3">
-      <p>Experience this level: {{(currentProject | async)?.currentPoints}} / {{(currentProject | async)?.pointInterval}}</p>
+      <p>Project Experience: {{(currentProject | async)?.currentPoints}} / {{(currentProject | async)?.pointInterval}}</p>
     </div>
     <div class="col-xs-6">
-      <app-leaderboard></app-leaderboard>
+      <p>Your Project Points: {{(userPoints | async)?.projectPoints}}</p>
     </div>
+  </div>
+
+  <div class="row">
+    <app-leaderboard></app-leaderboard>
   </div>
 
   <div class="row">

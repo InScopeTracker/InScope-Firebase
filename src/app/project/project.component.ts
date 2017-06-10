@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
 import { AuthService } from '../services/auth.service';
+import {AngularFireAuth} from "angularfire2/auth";
 
 @Component({
   selector: 'app-project',
@@ -16,11 +17,13 @@ export class ProjectComponent implements OnInit {
   public tasks: FirebaseListObservable<any>;
   public currentProjectId: any;
   public currentProject: FirebaseObjectObservable<any>;
+  public userPoints: any;
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
               private route: ActivatedRoute,
-              private authService: AuthService ) { }
+              private authService: AuthService,
+              private db: AngularFireDatabase) { }
 
   ngOnInit() {
     this.user = this.firebaseService.getUser(this.authService.user.uid);
@@ -30,5 +33,22 @@ export class ProjectComponent implements OnInit {
     this.firebaseService.getProjectMembers();
     this.firebaseService.project = this.currentProject;
     this.firebaseService.tasks = this.tasks;
+    this.getUserPoints();
+  }
+
+  getUserPoints() {
+    this.currentProject.subscribe(project => {
+      if (project.owner === this.authService.user.uid) {
+        this.userPoints = this.db.object('/userProfiles/' +
+        this.authService.user.uid +
+        '/projectsOwned/' +
+        this.currentProjectId);
+      } else {
+        this.userPoints = this.db.object('/userProfiles/' +
+            this.authService.user.uid +
+            '/projects/' +
+            this.currentProjectId);
+      }
+    });
   }
 }
