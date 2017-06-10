@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class TaskEditComponent implements OnInit, OnDestroy {
   public project: any;
+  public members: any[];
   public task: any;
   public isUpdateTask: boolean;
   public title: string;
@@ -49,9 +50,11 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     this.isUpdateTask = this.route.snapshot.url[0].path !== 'create';
     this.title = this.isUpdateTask ? 'Update Task' : 'Create Task';
     this.projectSubscription = this.firebaseService.project.subscribe(project => this.project = project);
+    this.members = this.firebaseService.getProjectMembers();
     this.form = this.fb.group({
       name: ['', Validators.required],
       taskStatus: this.statuses[0],
+      assignedTo: '',
       taskPointValue: '',
       description: ''
     });
@@ -63,6 +66,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
         this.form.setValue({
           name: task.title || '',
           taskStatus: task.taskStatus || this.statuses[0],
+          assignedTo: task.assignedTo || '',
           taskPointValue: task.taskPointValue || '',
           description: task.description || ''
         });
@@ -121,6 +125,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     this.firebaseService.updateTask({
       title: form.get('name').value,
       taskStatus: form.get('taskStatus').value,
+      assignedTo: form.get('assignedTo').value,
       taskPointValue: form.get('taskPointValue').value,
       description: form.get('description').value
     }).then(() => {
@@ -141,6 +146,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
       projectTitle: this.project.title,
       projectId: this.project.$key,
       taskStatus: form.get('taskStatus').value,
+      assignedTo: form.get('assignedTo').value,
       taskPointValue: form.get('taskPointValue').value,
       description: form.get('description').value,
       timestamp: Date.now()
