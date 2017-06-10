@@ -17,6 +17,7 @@ export class LeaderboardComponent implements OnInit {
     ngOnInit() {
         this.currentProjectId = this.route.snapshot.params['id'];
         this.firebaseService.getLeaderboard(this.currentProjectId).subscribe(leaders => {
+            this.leaderboard = [];
             leaders.forEach(userLeader => {
                 const data = {user: this.firebaseService.getUser(userLeader.$key),
                     points: userLeader.$value};
