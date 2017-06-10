@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
@@ -7,6 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FilterPipe } from '../services/filter.pipe';
 import { Subscription } from 'rxjs/Subscription';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   public projects: any;
   public user: FirebaseObjectObservable<any>;
   public newProject: string;
+  public createdProject: any;
   private projectSubscription: Subscription;
+
+  @ViewChild(ModalComponent)
+  public readonly modal: ModalComponent;
 
   constructor(private authService: AuthService,
               private firebaseService: FirebaseService,
@@ -30,6 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
    * database.
    */
   createProject() {
+    this.createdProject = undefined;
     if (this.newProject == null || this.newProject === undefined) {
       return;
     }
@@ -65,11 +71,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     updates['/userProfiles/' + this.authService.user.uid +
             '/projectsOwned/' + projKey + '/projectPoints'] = 0;
     this.db.database.ref().update(updates);
+    this.createdProject = {
+      $key: projKey,
+      name: this.newProject
+    };
+    this.newProject = undefined;
+    this.modal.show();
   }
 
   navToTasks(project) {
     this.app.currentProject = project.$key;
     this.router.navigateByUrl('/project/' + project.$key + '/task/list');
+  }
+
+  navToSettings(project) {
+    this.app.currentProject = project.$key;
+    this.router.navigateByUrl('/project/' + project.$key + '/settings');
   }
 
   ngOnInit() {
