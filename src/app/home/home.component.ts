@@ -43,8 +43,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       pointInterval: 20,
       currentPoints: 0,
       currentLevel: 1,
-      timestamp: Date.now()
-    };
+      timestamp: Date.now(),
+      statuses: ['To-Do', 'Delegated', 'Doing']
+  };
 
     // Get keys for new project and projectId.
     const projKey = this.projects.push(project).key;

@@ -1,11 +1,18 @@
-.kanban-board {
-    text-align: center;
+.kanban-columns,
+.kanban-headers {
+  display: flex;
 }
 
-.kanban {
-    display: flex;
+.kanban-column,
+.kanban-column-header {
+  padding: 10px;
+  flex-basis: 100%;
+}
+
+.kanban-column-headers {
+  text-align: center;
 }
 
 .kanban-column {
-    flex-grow: 1;
+  margin: 10px;
 }
