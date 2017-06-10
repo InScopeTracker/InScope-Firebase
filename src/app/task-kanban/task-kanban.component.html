@@ -6,7 +6,7 @@
 <div class='kanban-columns'>
   <div *ngFor='let status of statuses' id='{{status.name}}' class='kanban-column well'
        [dragula]='"taskStatusBags"' [dragulaModel]='status.tasks'>
-    <div *ngFor="let task of status.tasks" id='{{task.$key}}' class='panel panel-primary' >
+    <div *ngFor="let task of status.tasks" id='{{task.$key}}' class='panel panel-primary task' >
       <div class='panel-heading'>
         <h3 class='panel-title'>
           <a routerLink='../{{task.$key}}'>{{task.title}}</a>
