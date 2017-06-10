@@ -9,15 +9,15 @@
             <th class="text-center">Score</th>
         </tr>
         <tr>
-            <td class="text-left">{{(leaderboard[0].user | async)?.email}}</td>
+            <td class="text-left">{{(leaderboard[0]?.user | async)?.email}}</td>
             <td class="text-center">{{leaderboard[0]?.points}}</td>
         </tr>
         <tr>
-            <td class="text-left">{{(leaderboard[1].user | async)?.email}}</td>
+            <td class="text-left">{{(leaderboard[1]?.user | async)?.email}}</td>
             <td class="text-center">{{leaderboard[1]?.points}}</td>
         </tr>
         <tr>
-            <td class="text-left">{{(leaderboard[2].user | async)?.email}}</td>
+            <td class="text-left">{{(leaderboard[2]?.user | async)?.email}}</td>
             <td class="text-center">{{leaderboard[2]?.points}}</td>
         </tr>
     </table>
