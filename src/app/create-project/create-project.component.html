@@ -1,0 +1,25 @@
+<form [formGroup]="newProjectForm" (ngSubmit)="createProject(newProjectForm)" class="row">
+  <div class="form-group col-xs-7" [ngClass]="{'has-error has-feedback' : formErrors.name}">
+    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Project Name" required>
+  </div>
+  <button type="submit" class="btn btn-primary col-xs-5" [disabled]="newProjectForm.invalid">Create New Project</button>
+  <div class="form-group col-xs-12">
+    <p *ngIf="formErrors.name" class="text-danger">
+      {{ formErrors.name }}
+    </p>
+  </div>
+</form>
+
+<app-modal>
+  <div class="app-modal-header">
+    Project {{createdProject}} created!
+  </div>
+  <div class="app-modal-body">
+    Your new project was created. Update your project <a (click)="navToSettings(createdProject)">settings</a> to assign
+    task iterations and members.
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="modal.hide()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="navToSettings(createdProject)">View Settings</button>
+  </div>
+</app-modal>

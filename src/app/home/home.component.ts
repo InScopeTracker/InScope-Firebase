@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { FirebaseObjectObservable } from 'angularfire2/database';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
 import { AuthService } from '../services/auth.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FilterPipe } from '../services/filter.pipe';
-import { Subscription } from 'rxjs/Subscription';
 import { ModalComponent } from '../modal/modal.component';
 
 @Component({
@@ -17,9 +16,6 @@ import { ModalComponent } from '../modal/modal.component';
 export class HomeComponent implements OnInit, OnDestroy {
   public projects: any;
   public user: FirebaseObjectObservable<any>;
-  public newProject: string;
-  public createdProject: any;
-  private projectSubscription: Subscription;
 
   @ViewChild(ModalComponent)
   public readonly modal: ModalComponent;
@@ -30,63 +26,9 @@ export class HomeComponent implements OnInit, OnDestroy {
               private router: Router,
               private db: AngularFireDatabase) { }
 
-  /**
-   * Creates a new project and pushes it to the firebase
-   * database.
-   */
-  createProject() {
-    this.createdProject = undefined;
-    if (this.newProject == null || this.newProject === undefined) {
-      return;
-    }
-    const userId = this.authService.user.uid;
-    const userEmail = this.authService.user.email;
-    const project = {
-      title: this.newProject,
-      owner: userId,
-      ownerEmail: userEmail,
-      members: {},
-      pointInterval: 20,
-      currentPoints: 0,
-      currentLevel: 1,
-      timestamp: Date.now(),
-      statuses: ['To-Do', 'Delegated', 'Doing']
-  };
-
-    // Get keys for new project and projectId.
-    const projKey = this.projects.push(project).key;
-
-    // Write the new data simultaneously in the project list and the userProfiles list.
-    let updates = {};
-    updates['/projects/' + projKey] = project;
-    updates['/userProfiles/' + this.authService.user.uid +
-            '/projectsOwned/' + projKey + '/permissions'] = true;
-    this.db.database.ref().update(updates);
-
-    updates = {};
-    updates['/projects/' + projKey + '/members/' + userId] = true;
-    this.db.database.ref().update(updates);
-
-    updates = {};
-    updates['/userProfiles/' + this.authService.user.uid +
-            '/projectsOwned/' + projKey + '/projectPoints'] = 0;
-    this.db.database.ref().update(updates);
-    this.createdProject = {
-      $key: projKey,
-      name: this.newProject
-    };
-    this.newProject = undefined;
-    this.modal.show();
-  }
-
   navToTasks(project) {
     this.app.currentProject = project.$key;
     this.router.navigateByUrl('/project/' + project.$key + '/task/list');
-  }
-
-  navToSettings(project) {
-    this.app.currentProject = project.$key;
-    this.router.navigateByUrl('/project/' + project.$key + '/settings');
   }
 
   ngOnInit() {

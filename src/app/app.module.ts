@@ -27,6 +27,7 @@ import { ModalComponent } from './modal/modal.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 import { DragulaModule, DragulaService } from 'ng2-dragula';
+import { CreateProjectComponent } from './create-project/create-project.component';
 
 
 export const firebaseConfig = {
@@ -54,7 +55,8 @@ export const firebaseConfig = {
     PageNotFoundComponent,
     FilterPipe,
     ModalComponent,
-    LeaderboardComponent
+    LeaderboardComponent,
+    CreateProjectComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -11,9 +9,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
   error: any; // TODO grab errors
 
-  constructor(public afAuth: AngularFireAuth,
-              private router: Router,
-              public authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
   }
