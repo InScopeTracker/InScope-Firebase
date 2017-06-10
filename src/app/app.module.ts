@@ -24,8 +24,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { FirebaseService } from './services/firebase.service';
 import { FilterPipe } from './services/filter.pipe';
 import { ModalComponent } from './modal/modal.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 import { DragulaModule, DragulaService } from 'ng2-dragula';
+
 
 export const firebaseConfig = {
     apiKey: 'AIzaSyCXEdBDFU1BSbcteFDK7ueX_LzksCyC5tA',
@@ -51,7 +53,8 @@ export const firebaseConfig = {
     TaskEditComponent,
     PageNotFoundComponent,
     FilterPipe,
-    ModalComponent
+    ModalComponent,
+    LeaderboardComponent
   ],
   imports: [
     BrowserModule,
