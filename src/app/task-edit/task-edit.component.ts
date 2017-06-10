@@ -121,6 +121,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
     this.firebaseService.updateTask({
       title: form.get('name').value,
       taskStatus: form.get('taskStatus').value,
+      taskPointValue: form.get('taskPointValue').value,
       description: form.get('description').value
     }).then(() => {
       this.router.navigateByUrl(`/project/${projectId}/task/${taskId}`);
