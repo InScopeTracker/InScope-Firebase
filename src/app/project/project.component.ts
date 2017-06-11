@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
 import { AuthService } from '../services/auth.service';
-import {AngularFireAuth} from "angularfire2/auth";
 
 @Component({
   selector: 'app-project',
