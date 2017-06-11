@@ -50,6 +50,7 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
       return;
     }
     this.firebaseService.updateProjectInterval(this.currentProjectId, this.updatedProjectInterval);
+    this.members = this.firebaseService.getProjectMembers();
   }
 
   updateCurrentPoints() {
@@ -57,6 +58,7 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
       return;
     }
     this.firebaseService.updateCurrentPoints(this.currentProjectId, this.updatedCurrentPoints);
+    this.members = this.firebaseService.getProjectMembers();
   }
 
   updateCurrentLevel() {
@@ -64,6 +66,7 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
       return;
     }
     this.firebaseService.updateCurrentLevel(this.currentProjectId, this.updatedLevel);
+    this.members = this.firebaseService.getProjectMembers();
   }
 
   inputIsValid(input: any): boolean {
