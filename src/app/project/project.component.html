@@ -12,13 +12,13 @@
 
   <div class="row">
     <div class="col-xs-3">
-      <p>Project Level: {{(currentProject | async)?.currentLevel}}</p>
+      <h4 class="text-success">Project Level: {{(currentProject | async)?.currentLevel}}</h4>
     </div>
     <div class="col-xs-3">
-      <p>Project Experience: {{(currentProject | async)?.currentPoints}} / {{(currentProject | async)?.pointInterval}}</p>
+      <h4 class="text-success">Project Experience: {{(currentProject | async)?.currentPoints}} / {{(currentProject | async)?.pointInterval}}</h4>
     </div>
     <div class="col-xs-6">
-      <p>Your Project Points: {{(userPoints | async)?.projectPoints}}</p>
+      <h4 class="text-success">Your Project Points: {{(userPoints | async)?.projectPoints}}</h4>
     </div>
   </div>
 
