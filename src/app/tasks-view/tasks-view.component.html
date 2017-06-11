@@ -1,7 +1,12 @@
-<ul class="nav nav-pills task-view-navigation">
-  <li role="button" routerLink="./list" routerLinkActive="active"><a>View Task List</a></li>
-  <li role="button" routerLink="./kanban" routerLinkActive="active"><a>View Task Kanban</a></li>
-  <li role="button" routerLink="./create" routerLinkActive="active"><a>Add Task</a></li>
-</ul>
-
-<router-outlet></router-outlet>
+<div class="container">
+  <div class="row">
+    <ul class="nav nav-pills task-view-navigation col-xs-12">
+      <li role="button" routerLink="./list" routerLinkActive="active"><a>View Task List</a></li>
+      <li role="button" routerLink="./kanban" routerLinkActive="active"><a>View Task Kanban</a></li>
+      <li role="button" routerLink="./create" routerLinkActive="active"><a>Add Task</a></li>
+    </ul>
+  </div>
+  <div class="row">
+    <router-outlet></router-outlet>
+  </div>
+</div>
