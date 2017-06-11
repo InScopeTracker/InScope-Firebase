@@ -20,7 +20,7 @@ export class ProjectSettingsComponent implements OnInit, OnDestroy {
   public updatedLevel: number;
   public newMember: any;
   public members: any[];
-  private userProfiles: Observable<any[]>;
+  public userProfiles: Observable<any[]>;
 
   @ViewChild(ModalComponent)
   public readonly modal: ModalComponent;
