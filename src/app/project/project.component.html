@@ -14,8 +14,14 @@
     <div class="col-xs-3">
       <h4 class="text-success">Project Level: {{(currentProject | async)?.currentLevel}}</h4>
     </div>
-    <div class="col-xs-3">
-      <h4 class="text-success">Project Experience: {{(currentProject | async)?.currentPoints}} / {{(currentProject | async)?.pointInterval}}</h4>
+    <div class="col-xs-3"><h4 class="text-success">Project Experience:</h4>
+      <div class="progress">
+        {{(currentProject | async)?.currentPoints}} / {{(currentProject | async)?.pointInterval}}
+        <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="(currentProject | async)?.currentPoints"
+             aria-valuemin="0" [attr.aria-valuemax]="(currentProject | async)?.pointInterval"
+             [ngStyle]="{width:(currentProject | async)?.currentPoints/(currentProject | async)?.pointInterval | percent:'1.0-1'}">
+        </div>
+      </div>
     </div>
     <div class="col-xs-6">
       <h4 class="text-success">Your Project Points: {{(userPoints | async)?.projectPoints}}</h4>
