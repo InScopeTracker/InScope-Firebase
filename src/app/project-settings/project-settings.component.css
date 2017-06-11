@@ -22,3 +22,16 @@
 .ng-invalid:not(form)  {
     border-left: 5px solid #a94442; /* red */
 }
+
+.member-button-container {
+    padding-bottom: 10px;
+}
+
+/* Reset styles so button does not appear with button qualities. */
+.member-email:hover,
+.member-email:active,
+.member-email:focus {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
