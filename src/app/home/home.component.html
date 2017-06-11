@@ -5,24 +5,35 @@
     </div>
   </div>
   <div class="row">
-    <div class="jumbotron container-fluid">
+    <div class="col-xs-12">
       <h2>Projects</h2>
-      <div class="list-group col-md-12">
-        <h3>Owned By Me</h3>
-        <div class="list-group-item col-md-3"
-             *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : false"
-             (click)="navToTasks(project)" role="button">
-          {{project.title}}
-        </div>
+    </div>
+  </div>
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h5>Owned By Me</h5>
+    </div>
+    <div class="panel-body content projects">
+      <div class="row">
+        <button type="button" class="btn btn-default project-button col-xs-6 col-md-4"
+            *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : false"
+            (click)="navToTasks(project)" >
+          <h5>{{project.title}}</h5>
+        </button>
       </div>
-      <div class="list-group">
-        <h3>Owned By Others</h3>
-        <div class="list-group-item col-md-3"
-             *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : true"
-             (click)="navToTasks(project)" role="button">
-          {{project.title}}
-        </div>
-      </div>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h5>Owned By Others</h5>
+    </div>
+    <div class="panel-body content projects">
+      <div class="row">
+      <button type="button" class="btn btn-default project-button col-xs-6 col-md-4"
+              *ngFor="let project of projects | async | filter: 'owner' : (user | async)?.$key : true"
+              (click)="navToTasks(project)">
+        <h5>{{project.title}}</h5>
+      </button>
     </div>
   </div>
 </div>
