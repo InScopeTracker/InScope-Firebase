@@ -70,10 +70,10 @@ export class FirebaseService implements OnDestroy {
 
   getProjectMembers() {
     const members = [];
-    this.project.subscribe(project => {
+    this.project.take(1).subscribe(project => {
       if (project.members) {
         Object.keys(project.members).forEach(memberId => {
-          this.userProfileSubscriptions.push(this.getUser(memberId).subscribe(member => {
+          this.userProfileSubscriptions.push(this.getUser(memberId).take(1).subscribe(member => {
             if (members.indexOf(member) < 0) {
               members.push(member);
             }

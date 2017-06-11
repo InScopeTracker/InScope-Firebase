@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { FirebaseService } from '../services/firebase.service';
 import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-project',
@@ -11,12 +12,13 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./project.component.css']
 })
 
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit, OnDestroy {
   public user: FirebaseObjectObservable<any>;
   public tasks: FirebaseListObservable<any>;
   public currentProjectId: any;
   public currentProject: FirebaseObjectObservable<any>;
   public userPoints: any;
+  private projectSubscription: Subscription;
 
   constructor(private firebaseService: FirebaseService,
               public app: AppComponent,
@@ -35,8 +37,12 @@ export class ProjectComponent implements OnInit {
     this.getUserPoints();
   }
 
+  ngOnDestroy() {
+    this.projectSubscription.unsubscribe();
+  }
+
   getUserPoints() {
-    this.currentProject.subscribe(project => {
+    this.projectSubscription = this.currentProject.subscribe(project => {
       if (project.owner === this.authService.user.uid) {
         this.userPoints = this.db.object('/userProfiles/' +
         this.authService.user.uid +
