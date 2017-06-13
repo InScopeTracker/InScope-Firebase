@@ -12,7 +12,7 @@
 
 <app-modal>
   <div class="app-modal-header">
-    Project {{createdProject}} created!
+    Project {{createdProject?.name}} created!
   </div>
   <div class="app-modal-body">
     Your new project was created. Update your project <a (click)="navToSettings(createdProject)">settings</a> to assign
