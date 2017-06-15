@@ -26,11 +26,13 @@ export class HomeComponent implements OnInit, OnDestroy {
               private router: Router,
               private db: AngularFireDatabase) { }
 
+  // Navigate to task-list page for selected project
   navToTasks(project) {
     this.app.currentProject = project.$key;
     this.router.navigateByUrl('/project/' + project.$key + '/task/list');
   }
 
+  // Set up user and projects array
   ngOnInit() {
     this.projects = this.firebaseService.getProjects();
     this.user = this.firebaseService.getUser(this.authService.user.uid);

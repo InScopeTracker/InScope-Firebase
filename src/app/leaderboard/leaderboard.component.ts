@@ -17,6 +17,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
     constructor(private firebaseService: FirebaseService,
                 private route: ActivatedRoute) {}
 
+    // Set up projectId and subscription
     ngOnInit() {
         this.currentProjectId = this.route.snapshot.params['id'];
         this.firebaseService.getLeaderboard(this.currentProjectId).takeUntil(this.componentDestroyed$).subscribe(leaders => {
@@ -29,7 +30,8 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(){
+    // Destroy subscriptions
+    ngOnDestroy() {
         this.componentDestroyed$.next(true);
         this.componentDestroyed$.complete();
     }

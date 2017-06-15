@@ -26,6 +26,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
               private authService: AuthService,
               private db: AngularFireDatabase) { }
 
+  /**
+   * Initialize local variables and set up project member array, project
+   * tasks, and user
+   */
   ngOnInit() {
     this.user = this.firebaseService.getUser(this.authService.user.uid);
     this.currentProjectId = this.route.snapshot.params['id'];
@@ -37,10 +41,13 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.getUserPoints();
   }
 
+  // Unsubscribe on view getting destroyed
   ngOnDestroy() {
     this.projectSubscription.unsubscribe();
   }
 
+  // Pulls user points from either projects or projectOwned and sets
+  // this.userPoints to stored value
   getUserPoints() {
     this.projectSubscription = this.currentProject.subscribe(project => {
       if (project.owner === this.authService.user.uid) {

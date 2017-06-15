@@ -7,13 +7,14 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  error: any; // TODO grab errors
+  error: any;
 
   constructor(public authService: AuthService) { }
 
   ngOnInit() {
   }
 
+  // Login services provided in services/authService
   loginGoogle() {
     this.authService.loginGoogle();
   }

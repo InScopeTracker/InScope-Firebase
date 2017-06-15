@@ -45,6 +45,7 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
     this.onValueChanged(); // (re)set form validation messages now
   }
 
+  // Unsubscribe when the view is destroyed
   ngOnDestroy() {
     this.formSubscription.unsubscribe();
   }
@@ -79,10 +80,12 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
     '/projectsOwned/' + projKey + '/permissions'] = true;
     this.db.database.ref().update(updates);
 
+    // Add project to userProfiles/projects list
     updates = {};
     updates['/projects/' + projKey + '/members/' + userId] = true;
     this.db.database.ref().update(updates);
 
+    // Sets projectPoints to zero
     updates = {};
     updates['/userProfiles/' + this.authService.user.uid +
     '/projectsOwned/' + projKey + '/projectPoints'] = 0;
